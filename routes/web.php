@@ -15,7 +15,13 @@ Route::get('/', 'GuestController@index');
 
 Route::post('/search','SearchController@search');
 
-Route::get('/detail/{id}','DetailController@details');
+Route::get('/detail/{company}',function(App\Company $company){
+    
+    
+    foreach($company->categories as $cat)
+        echo $cat;
+    //return view('details')->with($company);
+});
 
 Auth::routes();
 

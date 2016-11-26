@@ -20,7 +20,9 @@ class SearchController extends Controller
                         ->select(DB::raw('distinct(companies.name) as CN,companies.email as CE,companies.web_page as CW'))
                         ->whereIn('categories.id',$request->input('category'))
                         ->get();
-       // dd($companies);
-        return view('display_list')->with('companies',$companies);
+
+      //dd($companies);
+
+        return view('display_list')->with(['companies'=>$companies,'request'=>$request]);
     }
 }

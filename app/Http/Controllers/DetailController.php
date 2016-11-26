@@ -8,7 +8,7 @@ class DetailController extends Controller
 {
     //
 
-    public function index(Request $searches){
+    public function index(Request $slug){
 
         
 
