@@ -19,7 +19,7 @@
                                 @if($input == 'password' || $input == 'password_confirm')
                                 <input id="name" type="password" class="form-control" name="{{$input}}" value="{{ old($input) }}" required autofocus>
                                 @elseif ($input == 'description')
-                                <textarea rows="4" cols="50" ></textarea>
+                                <textarea rows="4" cols="50" value = "{{old($input)}}" name = "{{$input}}"></textarea>
                                 @elseif($input == 'category')
                                 <select  multiple ="true" class="form-control chzn-select" id="combobox" name="category[]"  required>
                                     <option></option>

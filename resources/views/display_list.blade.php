@@ -9,9 +9,9 @@
             <div class="thumbnail">
             <img src="./images/event.jpeg" alt="...">
             <div class="caption">
-                <h3>{{ $company->CN }}</h3>
-                <p>{{$company->DE}}}</p>
-                <p><a href="{{url('detail/'.$company->NS)}}" class="btn btn-primary" role="button">Details</a></p>
+                <h3>{{ $company->name }}(@foreach ($company->categories as $cat) <small>{{$cat->name}},</small>  @endforeach)</h3>
+                <p>{{$company->description}}}</p>
+                <p><a href="{{url('detail/'.$company->name_slug)}}" class="btn btn-primary" role="button">Details</a></p>
             </div>
             </div>
         </div>

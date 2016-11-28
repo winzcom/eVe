@@ -16,16 +16,22 @@ class User extends Authenticatable
      */
 
     protected $table = "companies";
-    /*protected $fillable = [
-        'name', 'email', 'password',
-        'name_slug'
-    ];*/
+    protected $fillable = [
+        'name','email','password','password_confirm','first_name','last_name',
+        'category',
+        'description',
+        'phone_no'
+    ];
 
     protected $guard = [];
 
 
     protected static  $formInputs = [
         'name','email','password','password_confirm','first_name','last_name',
+        'phone_no',
+        'house_no',
+        'street_name',
+        'state',
         'category',
         'description'
     ];
