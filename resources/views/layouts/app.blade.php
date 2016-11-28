@@ -14,10 +14,15 @@
     <link href="./css/app.css" rel="stylesheet">
 
     <!-- Scripts -->
-    <script>
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+
+        <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
+         
     </script>
 </head>
 <body>
@@ -82,6 +87,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="./js/app.js"></script>
+    
 </body>
 </html>

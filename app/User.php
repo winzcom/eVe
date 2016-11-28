@@ -16,9 +16,18 @@ class User extends Authenticatable
      */
 
     protected $table = "companies";
-    protected $fillable = [
+    /*protected $fillable = [
         'name', 'email', 'password',
         'name_slug'
+    ];*/
+
+    protected $guard = [];
+
+
+    protected static  $formInputs = [
+        'name','email','password','password_confirm','first_name','last_name',
+        'category',
+        'description'
     ];
 
     /**
@@ -29,4 +38,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function getFormInputs(){
+        return self::$formInputs;
+    }
+
+    public function categories(){
+       return $this->belongsToMany('App\Category','company_category','company_id','category_id');
+    }
+
+    public function addresses(){
+        $this->hasMany('App\Address');
+    }
+
+    public function getRouteKeyName(){
+        return 'name_slug';
+    }
 }

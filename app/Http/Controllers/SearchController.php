@@ -17,7 +17,9 @@ class SearchController extends Controller
         $companies = DB::table('companies')
                         ->join('company_category','companies.id','=','company_category.company_id')
                         ->join('categories','categories.id','=','company_category.category_id')
-                        ->select(DB::raw('distinct(companies.name) as CN,companies.email as CE,companies.web_page as CW'))
+                        ->select(DB::raw('distinct(companies.name) as CN,companies.email as CE,companies.web_page as CW,
+                            companies.description as DE,companies.name_slug as NS
+                        '))
                         ->whereIn('categories.id',$request->input('category'))
                         ->get();
 

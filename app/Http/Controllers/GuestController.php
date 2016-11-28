@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\Service\Service;
 
 class GuestController extends Controller
 {
@@ -24,7 +25,7 @@ class GuestController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
+        $category = Service::getCategories();
         return view('welcome')->with('category',$category);
     }
 }

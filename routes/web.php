@@ -15,7 +15,7 @@ Route::get('/', 'GuestController@index');
 
 Route::post('/search','SearchController@search');
 
-Route::get('/detail/{company}',function(App\Company $company){
+Route::get('/detail/{company}',function(App\User $company){
     
     
     foreach($company->categories as $cat)

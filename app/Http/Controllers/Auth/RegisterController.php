@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Company;
+use App\Service\Service;
 class RegisterController extends Controller
 {
     /*
@@ -27,7 +28,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
+     
 
     /**
      * Create a new controller instance.
@@ -37,6 +39,11 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register')->with(['formInputs'=>User::getFormInputs(),'categories'=>Service::getCategories()]);
     }
 
     /**
@@ -66,7 +73,10 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'name_slug'=>str_slug($data['name'])
+            'name_slug'=>str_slug($data['name']),
+            'first_name'=>$data['first_name'],
+            'last_name'=>$data['last_name'],
+            'description'=>$data['description']
         ]);
     }
 }
