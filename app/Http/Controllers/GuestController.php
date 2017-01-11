@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Service\Service;
+use App\User;
+use App\Review;
 
 class GuestController extends Controller
 {
@@ -26,6 +28,14 @@ class GuestController extends Controller
     public function index()
     {
         $category = Service::getCategories();
-        return view('welcome')->with('category',$category);
+        $state = Service::getStates();
+        return view('welcome')->with('companies',User::all());
+    }
+
+    public function writeReview(Request $request){
+
+        
+        Review::create($request->all());
+        return back()->with('search_url',$request->search_url);
     }
 }

@@ -16,5 +16,14 @@ require('./bootstrap');
 Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    methods:{
+        submitEmail:function(){
+            console.log('<<<>>>>>>>')
+           /* formContents = jQuery("#mail").serialize();
+            axios.post('/client_mail',formContents).then(function(response){
+                alert(response)
+            })*/
+        }
+    }
 });

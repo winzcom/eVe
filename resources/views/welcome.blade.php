@@ -8,20 +8,35 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
+        
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+        <link rel="stylesheet" href="{{asset('/css/app.css')}}">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+        <link rel="stylesheet" href="{{asset('/css/chosen.css')}}">
+
 
         <!-- Styles -->
         <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
+        @keyframes animate{
+            from {background:scale(1);}
+            to{transform:scale(1.3)}
+        }
+
+        html, body {
+                /*background-color: #fff;*/
+               background: url("images/African-Rhythm-7.png") no-repeat center center fixed; 
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                
+                overflow-x: hidden;
+                /*color: #636b6f;*/
                 font-family: 'Raleway', sans-serif;
-                font-weight: 100;
+                font-weight: 670;
                 height: 100vh;
                 margin: 0;
             }
@@ -52,6 +67,8 @@
 
             .title {
                 font-size: 84px;
+                font-weight:3em;
+                color:#fff;
             }
 
             .links > a {
@@ -68,41 +85,37 @@
                 margin-bottom: 30px;
             }
 
-            .custom-combobox {
-    position: relative;
-    display: inline-block;
-  }
-  .custom-combobox-toggle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: -1px;
-    padding: 0;
-  }
-  .custom-combobox-input {
-    margin: 0;
-    padding: 5px 10px;
-  }
+            .cat{
+                color:#fff;
+            }
+
+            
         </style>
         <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>-->
        <!-- <script src="./js/combox.js"> </script>-->
-
+ <script src="{{asset('/js/app.js')}}"></script>
 
     </head>
     <body>
-<script type="text/javascript">
-            $(function() {
-                $(".chzn-select").chosen();
-            });
-</script>
-        <div class="flex-center position-ref full-height">
+
+        <div class="flex-center position-ref full-height" id="contain">
             @if (Route::has('login'))
+           
                 <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
+                    <div class = "row">
+                    <div class="col-sm-8"></div><!-- dummy col-sm-8-->
+                    <div class="col-sm-2">
+                         @include('app_view.shared.search',['companies'=>$companies])
+                    </div><!-- include(shared.search) col-sm-2-->
+                   <div class="col-sm-2">
+
+                   @if (Auth::check())
+                    <a href="{{url('/home')}}" style ="color:white">Home</a>
+                
                         <a href="{{ url('/logout') }}"
+                                            style ="color:white"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
@@ -112,35 +125,33 @@
                                             {{ csrf_field() }}
                                         </form>
                     @else
-                        <a href="{{ url('/login') }}">Login</a>
+                        <a href="{{ url('/login') }}" style ="color:white">Login</a>
                     @endif
-                </div>
+                    </div><!-- col-sm-1-->
+                    </div><!-- row -->
+                </div><!-- top-right links -->
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    eWEB
+                    eVenting
                 </div>
 
-                <div>
-                    <form method = "post" action = "{{url('/search')}}">
-                         {{ csrf_field() }}
-                        <div class="form-group">
-                         <label for="Category">Category</label>
-                         
-                           <select  multiple="true" class="form-control chzn-select" id="combobox" name="category[]"  required>
-                            <option></option>
-                                @foreach ($category as $cate)
-                                     <option value = "{{$cate->id}}">{{$cate->name}}</option>
-                                @endforeach
-                            </select>
-                            </br>
-                            </br>
-                            <input type = "submit" class="btn btn-primary" value="search"/>
-                        </div>
-                    </form>
+                <div class="">
+                    @include('app_view.shared.search_cat_form',['category'=>$category,'states'=>$states])
                 </div>
             </div>
         </div>
+         <script src="{{asset('js/chosen.jquery.js')}}"></script>
+        <script>
+            /*if('serviceWorker' in navigator){
+                navigator.serviceWorker.register('sw.js').then(function(){
+                    console.log('Service worker Registered');
+                })
+            }*/
+
+            $(".chzn-select").chosen();
+        </script>
+
     </body>
 </html>

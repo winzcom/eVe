@@ -6,8 +6,10 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Requests\RegisterFormRequest;
 use App\Company;
 use App\Service\Service;
+
 class RegisterController extends Controller
 {
     /*
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
      
 
     /**
@@ -43,7 +45,11 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('auth.register')->with(['formInputs'=>User::getFormInputs(),'categories'=>Service::getCategories()]);
+        return view('auth.register')
+        ->with(['formInputs'=>User::getFormInputs(),
+        'categories'=>Service::getCategories(),
+        'states'=>Service::getStates()
+        ]);
     }
 
     /**
@@ -54,12 +60,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:companies',
-            'password' => 'required|min:6',
-            'password_confirm'=>'required|min:6|same:password'
-        ]);
+        return Validator::make($data, Service::formRules(new RegisterFormRequest));
     }
 
     /**
@@ -70,15 +71,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        /*return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'name_slug'=>str_slug($data['name']),
-            'first_name'=>$data['first_name'],
-            'last_name'=>$data['last_name'],
-            'description'=>$data['description']
-        ]);*/
        return $user = Service::createNewUser($data);
     }
 }

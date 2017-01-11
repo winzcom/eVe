@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+ use Illuminate\Support\Facades\Auth;
+ use Illuminate\Validation\Rule;
+
 
 class RegisterFormRequest extends FormRequest
 {
@@ -13,7 +16,7 @@ class RegisterFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,13 +26,27 @@ class RegisterFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $user = Auth::user();
+
+        $rules = [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:companies',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6',
+            'password_confirm'=>'required|min:6|same:password',
+            'phone_no'=>'required|numeric',
+            'house_no'=>'required',
+            'street_name'=>'required',
+            'state'=>'required',
+            'category'=>'required',
+            'description'=>'required',
             'first_name'=>'required',
-            'last_name'=>'required',
-            'category'=>'required'
+            'last_name'=>'required'
         ];
+
+
+        if($user === null) $rules  = array_merge($rules,array('email'=>'required|email|unique:companies,email'));
+        else $rules  = array_merge($rules,array('email' => array('required','email','max:255',Rule::unique('companies')->ignore($user->id))));
+
+        return $rules;
+
     }
 }
