@@ -35,17 +35,34 @@
                                             </select>
 
                                         @elseif($input == 'state')
-                                            <select   class="form-control chzn-select" id="combobox" name="state"  required>
+                                            <select   class="form-control chzn-select" id="state" name="state" 
+                                                onchange = "changeVicinitySelect(this)"
+                                                
+                                                required>
                                                 <option></option>
                                                 @foreach ($states as $state)
                                                 <option value = "{{$state->state}}"
+                                                    data-id = "{{$state->id}}"
                                                     <?php if($user->state == $state->state) echo 'selected';?>
                                                 >{{$state->state}}</option>
                                                 @endforeach
                                             </select>
 
+                                    @elseif($input == 'vicinity_id')
+                                        <select   class="form-control" id="vicinity" name="vicinity_id">
+                                                <option></option>
+                                                @foreach ($vicinities as $vicinity)
+                                                <option value = "{{$vicinity->id}}"
+                                                    data-state-id = "{{$vicinity->state_id}}"
+                                                     class="vicinities"
+                                                    <?php if($user->vicinity_id == $vicinity->id) echo 'selected';?>
+                                                >{{$vicinity->name}}</option>
+                                                @endforeach
+                                            </select>
+
                                     @elseif ($input == 'description')
                                         {{Form::textarea($input,$user->$input,['class'=>'form-control','required'])}}
+
                                     @elseif($input == 'email')
                                         <div class="form-group form-group-md">
                                             {{Form::email($input,$user->email,['class'=>'form-control','required'])}}
@@ -78,6 +95,7 @@
 
 @section('js')
     <script src="{{asset('/js/chosen.jquery.min.js')}}"></script>
+    <script src="{{asset('/js/combox.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
 

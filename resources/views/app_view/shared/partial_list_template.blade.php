@@ -21,7 +21,9 @@
                                 <p>{{str_limit($company->description,300)}}</p>
                                 <div id ="address">
                                     <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                                    {{$company->house_no}} {{$company->street_name}} {{$company->state}}</p>
+                                        {{$company->house_no}} {{$company->street_name}} 
+                                           {{$company->state}} 
+                                    </p>
                                 </div>
                                 <p><a href="{{url('detail/'.$company->name_slug)}}" class="w3-btn w3-blue" role="button">Details</a></p>
                             </div><!--  col-md-8-->

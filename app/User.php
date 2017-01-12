@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name','email','password','first_name','last_name',
         'category','state',
+        'vicinity',
         'description',
         'phone_no','house_no','street_name','name_slug'
     ];
@@ -43,7 +44,10 @@ class User extends Authenticatable
         'Company Details'=>[
             'name',
             'house_no',
-            'street_name','state','category','description','phone_no'
+            'street_name',
+            'state',
+            'vicinity_id',
+            'category','description','phone_no'
         ]
     ];
 
@@ -71,6 +75,7 @@ class User extends Authenticatable
             'street_name'=>'required',
             'state'=>'required',
             'category'=>'required',
+            'vicinity_id'=>'required',
             'description'=>'required',
             'first_name'=>'required',
             'last_name'=>'required'
@@ -98,6 +103,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Review','review_for');
     }
 
+    public function vicinity(){
+        return $this->belongsTo('App\Vicinity','vicinity_id');
+    }
+
     public function getRouteKeyName(){
         return 'name_slug';
     }
@@ -106,8 +115,17 @@ class User extends Authenticatable
         return false;
     }
 
-    public function scopeState($query,$state = null){
+    public function scopeStateVicinity($query,$state = null,$vicinity = null){
 
-        return $state !== 'all' ? $query->where('state',$state) : $query;
+        /*return $state !== 'all' && $vicinity !== 'all' ? $query->where(['state'=>$state,
+            'vicinity'=>$vicinity
+        ]) : $query;*/
+
+        if($state !== 'all'){
+            if(($vicinity !== null) && ($vicinity !== 'all'))
+                return $query->where(['state'=>$state,'vicinity_id'=>$vicinity]);
+             else return $query->where('state',$state);
+        }
+        else return $query;
     }
 }

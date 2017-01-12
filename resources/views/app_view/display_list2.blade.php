@@ -19,6 +19,7 @@
      @include('app_view.shared.search')
      
     @if(count($companies) > 0)
+       </select></span>
        @include('app_view.shared.partial_list_template',['companies'=>$companies])
        {{ $companies->appends($request->query->all())->links() }}
 
@@ -33,4 +34,8 @@
     </div>
 </div>
 @endif
+@endsection
+
+@section('js')
+    <script src="{{asset('/js/combox.js')}}"></script>
 @endsection

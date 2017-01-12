@@ -16,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        View::share(['category'=>Service::getCategories(),'states'=>Service::getStates()]);
+        View::share(['category'=>Service::getCategories(),'states'=>Service::getStates(),
+            'vicinities'=>Service::getVicinities()
+        ]);
     }
 
     /**

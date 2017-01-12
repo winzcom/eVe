@@ -1,10 +1,20 @@
 
 //
-var count = 0;
-var first = document.getElementsByClassName("tabsContent")[0].getAttribute('id');
-var tab = document.getElementsByClassName("tablinks")[0];
+let state = document.getElementById('state');
 
-var email_forms = document.getElementsByClassName('email_forms');
+if(state){
+    toggleDisplayForVicinity(false,state.options[state.selectedIndex].value);
+    changeVicinitySelect(state);
+}
+
+let count = 0;
+let first = document.getElementsByClassName("tabsContent")[0].getAttribute('id');
+
+let tab = document.getElementsByClassName("tablinks")[0];
+
+
+
+let email_forms = document.getElementsByClassName('email_forms');
 for(i =0; i<email_forms.length;i++){
     email_forms[i].style.display = "none";
 }
@@ -18,15 +28,15 @@ else
     
 
 function openCity(obj,cityName) {
-    var i = 0;
-    var x = document.getElementsByClassName("tabsContent");
-    var tabbuttons = document.getElementsByClassName("tablinks");
+    let i = 0;
+    let x = document.getElementsByClassName("tabsContent");
+    let tabbuttons = document.getElementsByClassName("tablinks");
     for (i = 0; i < x.length; i++) {
         x[i].style.display = "none"; 
         tabbuttons[i].style.borderBottom = "none";
     }
 
-    var d = document.getElementById(cityName);
+    let d = document.getElementById(cityName);
     d.style.display = "block"; 
     obj.style.borderBottom = "solid black 5px";
 
@@ -39,13 +49,13 @@ function openCity(obj,cityName) {
 }
 
  function openMail(id){
-     var form = document.getElementById(id);
+     let form = document.getElementById(id);
      form.style.display = "block";
      form.setAttribute('class','w3-modal')
  }
 
  function myFunction(id) {
-                var x = document.getElementById(id);
+                let x = document.getElementById(id);
                 if (x.className.indexOf("w3-show") == -1) {
                     x.className += " w3-show";
                 } else { 
@@ -104,6 +114,8 @@ function initMap() {
 
              var preview =  document.getElementById("preview")
              preview.innerHTML = "";
+            preview.style.overflowY = "scroll";
+            preview.style.maxHeight = "400px";
 
              var fileElem = document.getElementById("fileElem")
              var filesarray = [];
@@ -121,7 +133,8 @@ function initMap() {
             }
 
             var coldiv = document.createElement("div");
-            coldiv.setAttribute("class","col-sm-6")
+            coldiv.setAttribute("class","col-sm-12");
+           
 
             var img = document.createElement("img");
             img.setAttribute("class","img-thumbnail");
@@ -129,7 +142,7 @@ function initMap() {
             
             var input = document.createElement("textarea");
             input.setAttribute('class','w3-margin-top form-control caption');
-            input.setAttribute('placeholder','A lttle caption to describe the image');
+            input.setAttribute('placeholder','A lttle caption to describe the image e.g range of price 200-4000 ');
             input.setAttribute('name','caption[]');
 
              var size = file.size;
@@ -269,4 +282,65 @@ function removeChildFromPreview(){
         preview.removeChild(preview.lastChild);
     }
 
+}
+
+function lonLngToDist(lat1,lng1,lat2,lng2,unit = 'M'){
+
+    var radlat1 = Math.PI * lat1/180;
+    var radlat2 = Math.PI * lat2/180;
+    var radlng1 = Math.PI * lng1/180;
+    var radlng2 = Math.PI * lng2/180;
+    var theta = lng1-lng2;
+    var radtheta = Math.PI * theta/180;
+
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+
+    dist = Math.acos(dist);
+    dist = dist * 180/Math.PI;
+    dist = dist * 60 * 1.1515
+
+    if(unit == "K")
+        dist = dist*1.609344;
+    if(unit == "N")
+        dist = dist*0.8684;
+
+    return dist;
+}
+
+function changeVicinitySelect(e){
+    
+    let vicinites = document.getElementsByClassName('vicinities');
+    let len=vicinites.length;
+    let toggle = true;
+
+    for(i=0; i<len; i++){
+            vicinites[i].style.display = "";
+        }
+
+    if(e.options[e.selectedIndex].value !== 'all'){
+        toggleDisplayForVicinity(toggle,e.options[e.selectedIndex].value)
+
+        for(i=0; i<len; i++){
+            if(vicinites[i].dataset.stateId != e.options[e.selectedIndex].dataset.id){
+                vicinites[i].style.display = "none";
+            }
+        }
+        
+    }
+        
+    else{
+
+        toggle = false;
+        toggleDisplayForVicinity(toggle,e.options[e.selectedIndex].value)
+    }
+        
+
+}
+
+function toggleDisplayForVicinity(display = false,state = 'all'){
+   
+    if(!display || state == 'all'){
+        document.getElementById('vicinity').disabled = !display;
+    }
+    else document.getElementById('vicinity').disabled = !display;
 }

@@ -40,6 +40,9 @@
                                     >{{$state->state}}</option>
                                     @endforeach
                                 </select>
+                                @elseif($input == 'vicinity')
+                                <input id="name" type="text" class="form-control" name="{{$input}}" 
+                                placeholder = "e.g Ikeja,Akowonjo, Agege" value="{{ old($input) }}" required autofocus>
 
                                 @else
                                 <input id="name" type="text" class="form-control" name="{{$input}}" value="{{ old($input) }}" required autofocus>

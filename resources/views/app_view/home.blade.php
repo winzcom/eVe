@@ -34,7 +34,7 @@
 
             <div id ="address" style="margin-top:10px; margin-left:10px;">
                 <p class="line"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                {{Auth::user()->house_no}} {{Auth::user()->street_name}} {{Auth::user()->state}}</p>
+                {{Auth::user()->house_no}}, {{Auth::user()->street_name}}, {{Auth::user()->state}}</p>
 
                 <h4>Full Name: </h4>
                 <p class="line">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</p>

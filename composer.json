@@ -24,7 +24,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "App\\Service\\":"app/services"
+            "App\\Service\\":"app/services",
+            "GuzzleHttp\\":"vendor/guzzlehttp/guzzle"
         }
     },
     "autoload-dev": {

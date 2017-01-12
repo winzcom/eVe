@@ -107,7 +107,7 @@
                     <div class = "row">
                     <div class="col-sm-8"></div><!-- dummy col-sm-8-->
                     <div class="col-sm-2">
-                         @include('app_view.shared.search',['companies'=>$companies])
+                         @include('app_view.shared.search')
                     </div><!-- include(shared.search) col-sm-2-->
                    <div class="col-sm-2">
 
@@ -138,11 +138,12 @@
                 </div>
 
                 <div class="">
-                    @include('app_view.shared.search_cat_form',['category'=>$category,'states'=>$states])
+                    @include('app_view.shared.search_cat_form')
                 </div>
             </div>
         </div>
-         <script src="{{asset('js/chosen.jquery.js')}}"></script>
+         <script src="{{asset('/js/chosen.jquery.js')}}"></script>
+         <script src="{{asset('/js/combox.js')}}"></script>
         <script>
             /*if('serviceWorker' in navigator){
                 navigator.serviceWorker.register('sw.js').then(function(){

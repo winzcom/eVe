@@ -80,7 +80,7 @@
                 </div>
                     <div class="w3-padding-left w3-margin-top" id="allWrapper"><!--start-of-allWrapper-->
                         <p id ="address"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                        {{$userd->house_no}} {{$userd->street_name}} {{$userd->state}}</p>
+                        {{$userd->house_no}} {{$userd->street_name}} {{$userd->vicinity->name}} {{$userd->state}}</p>
 
                    
 

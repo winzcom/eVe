@@ -19,16 +19,20 @@
 
         <li  role="presentation">
                 <button class="tablinks"style="border:none;background-color:#fff;"  onclick="openCity(this,'positives')">
-                    <span class="glyphicon glyphicon-chevron-right"></span> Average Rating
+                    <span class="glyphicon glyphicon-chevron-right"></span> Median Rating({{$positives->count()}})
                 </button>
         </li>
         
         <li role="presentation">
             <button class="tablinks" style="border:none;background-color:#fff;" onclick="openCity(this,'negatives')">
-                <span class="glyphicon glyphicon-chevron-left"></span> Average Rating
+                <span class="glyphicon glyphicon-chevron-left"></span> Median Rating({{$negatives->count()}})
             </button>
         </li>
-        <span class="glyphicon glyphicon-stats"> {{$reviews->pluck('rating')->avg()}} Average</span> 
+        <span class="glyphicon glyphicon-stats">  
+            AverageRating {{number_format($average,1)}}/5 
+            TotalReviews {{$total}} 
+            MedianRating 3
+        </span>
 </ul>    
 
 @else

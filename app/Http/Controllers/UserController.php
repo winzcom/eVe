@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RegisterFormRequest;
 
+use GuzzleHttp\Client;
+
 use App\User;
 use App\Service\Service;
 use App\Interfaces\GalleryInterface;
@@ -33,10 +35,12 @@ class UserController extends Controller
     }
 
     public function updateProfile(RegisterFormRequest $request){
-
+        
+       
         $filtered = $request->except(['password_confirm','category','_token']);
         $filtered['password'] = bcrypt($filtered['password']);
         $name_slug =  ['name_slug'=>str_slug($filtered['name'])];
+        $filtered['vicinity_id'] = (int)$request->vicinity_id !== 0 ? (int)$request->vicinity_id:0 ;
         $filtered = array_merge($filtered,$name_slug);
 
       try{
@@ -101,7 +105,10 @@ class UserController extends Controller
     }
 
     public function getReviews(){
-        $reviews = Review::where('review_for',Auth::id())->get();
+        $reviews = Review::where('review_for',Auth::id());
+        $avg = $reviews->avg('rating');
+        $total = $reviews->count();
+        $reviews = $reviews->paginate(20);
         $positives = $reviews->filter(function($review){
             return $review->rating >=3; 
         });
@@ -113,7 +120,8 @@ class UserController extends Controller
                         
                             'positives'=>$positives,
                             'negatives'=>$negatives,
-                            'average'=>$reviews->avg()
+                            'average'=>$avg,
+                            'total'=>$total
             ]);
     }
 }

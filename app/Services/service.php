@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Category;
 use App\User;
+use App\Vicinity;
 use App\Gallery;
 use App\Interfaces\GalleryInterface;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,7 @@ class Service{
             return  DB::table('states')->select('state')->OrderBy('state')->get();
         });*/
 
-         return  DB::table('states')->select('state')->OrderBy('state')->get();
+         return  DB::table('states')->select('*')->OrderBy('state')->get();
     }
 
     public static function getImages($directory){
@@ -80,6 +81,10 @@ class Service{
     public static function formRules(RegisterFormRequest $request){
 
         return $request->rules(); 
+    }
+
+    public static function getVicinities(){
+        return Vicinity::OrderBy('name')->get();
     }
    
 }

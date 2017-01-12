@@ -27,9 +27,8 @@ class GuestController extends Controller
      */
     public function index()
     {
-        $category = Service::getCategories();
-        $state = Service::getStates();
-        return view('welcome')->with('companies',User::all());
+    
+        return view('welcome');
     }
 
     public function writeReview(Request $request){

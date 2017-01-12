@@ -25,7 +25,7 @@ class GalleryProvider extends ServiceProvider
     {
         $this->app->bind(
             '\App\Interfaces\GalleryInterface',
-            '\App\Service\LocalGallery'
+            'App\Service\LocalGallery'
         );
     }
 }

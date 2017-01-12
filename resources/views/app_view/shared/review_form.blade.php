@@ -10,15 +10,21 @@
                 action="{{url('/write_review')}}"
     >
          {{ csrf_field() }}
+
         <div class="w3-section">
             <input type="hidden" name="review_for" value="{{$userd->id}}">
+
             @if(session('search_url'))
             <input type="hidden" name="search_url" value="{{session('search_url')}}" id="input_with_session_var">
             @else
             <input type="hidden" name="search_url" value="{{URL::previous()}}">
             @endif
+
           <label class="w3-label w3-validate">Name</label>
           <input type="text"class="form-control" name="reviewers_name" required>
+
+          <label class="w3-label w3-validate">Email</label>
+          <input type="text"class="form-control" name="reviewers_email" required>
 
           <label class="w3-label w3-validate"><b>Rating</b></label>
           <select name="rating" class="form-control">
@@ -30,7 +36,7 @@
           </select></br>
 
           <label class="w3-label w3-validate">Review</label>
-          <textarea name="review" rows="10" cols="60" class="form-control" required></textarea>
+          <textarea name="review" rows="5" cols="60" class="form-control" required></textarea>
 
           <input class=" w3-btn w3-blue" type="submit">
         </div>
