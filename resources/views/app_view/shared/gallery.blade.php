@@ -16,7 +16,7 @@
                                         <p class="w3-margin">
                                             
                                             @if($gallery->caption !== null)
-                                                {{$gallery->caption}}
+                                                {{html_entity_decode($gallery->caption)}}
                                             @endif
                                         </p>
                                     </div>

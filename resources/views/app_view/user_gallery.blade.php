@@ -1,5 +1,19 @@
 @extends('layouts.app')
 
+
+@section('headjs')
+  <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>
+@endsection
+
+@section('customstyle')
+<style>
+textarea{
+    max-width:100%;
+    max-height:100%;
+}
+</style>
+@endsection
+
 @section('content')
     <div>
     </div>
@@ -58,7 +72,7 @@
                 
 
                 <div class="row">
-                    <div class="col-md-3"><!--start-of-first-outer-col-->
+                    <div class="col-md-4"><!--start-of-first-outer-col-->
                         <div class="w3-card-3 w3-padding">
                             <span>(Image should not be more than 5MB) Click on Image to remove it</span>
                             <header class="w3-black w3-padding">
@@ -78,7 +92,7 @@
                         <input type="submit" class="w3-btn w3-margin-left" value="Delete Selected Images">
                         <span class="glyphicon glyphicon-trash"></span>
 
-                    <div class="col-md-9"><!--start-of-second-outer-col-->
+                    <div class="col-md-8"><!--start-of-second-outer-col-->
                         <div class="row" id="gallery_view"><!--start-of-inner-row-->
                        
                         @foreach($user->galleries as $gallery)

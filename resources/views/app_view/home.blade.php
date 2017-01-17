@@ -46,7 +46,7 @@
                 <p class="line">{{Auth::user()->phone_no}}</p>
 
                 <h4>Description</h4>
-                <p>{{Auth::user()->description}}</p>
+                <p>{{(Auth::user()->description)}}</p>
             </div>
 
             <!--<div style="margin-left:5px;">
@@ -73,23 +73,23 @@
                         
                        <!--@endforeach
                       </div>--><!-- slick-->
-                      @include('app_view.shared.gallery',['galleries'=>$user->galleries()->get()])
+                      @include('app_view.shared.gallery',['galleries'=>$user->galleries])
         </div>
         <div class="w3-card w3-margin w3-padding">
         
           <header class="w3-margin w3-container">
-            @include('app_view.shared.tabs',['review_count'=>$user->reviews()->count()])
+            @include('app_view.shared.tabs',['review_count'=>count($user->reviews)])
           </header>
 
                
             <div id="reviews" class="tabsContent">
 
-                @if($user->reviews()->count() == 0)
+                @if(count($user->reviews) == 0)
                 <h4>
                     No Reviews
                 </h4>
                 @else
-                    @include('app_view.shared.display_review',['reviews'=>$user->reviews()->take(5)])
+                    @include('app_view.shared.display_review',['reviews'=>$user->reviews])
                 @endif
             </div><!--Reviews-->
 

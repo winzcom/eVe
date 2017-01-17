@@ -14,8 +14,8 @@
                                 <h3>{{$company->name}}(@foreach ($company->categories as $cat) 
                                     <small>{{$cat->name}} </small>  @endforeach) 
                                     <small>
-                                         {{number_format($company->reviews()->avg('rating'),1)}}/5 
-                                        from {{$company->reviews()->count()}} reviews
+                                         {{number_format($company->reviews->avg('rating'),1)}}/5 
+                                        from {{$company->reviews->count()}} reviews
                                     </small>
                                 </h3>
                                 <p>{{str_limit($company->description,300)}}</p>

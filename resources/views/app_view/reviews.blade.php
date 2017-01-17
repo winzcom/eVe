@@ -1,5 +1,22 @@
 @extends('layouts.app')
 
+@section('customstyle')
+
+<style>
+    .filter{
+        display:inline;
+        
+    }
+    .filter_active{
+        background-color:black;
+        color:white;
+        text-decoration:none;
+    }
+    
+</style>
+
+@endsection
+
 @section('content')
 
 <?php $i = 0;?>
@@ -7,13 +24,9 @@
     <div class="container-fluid">
         <div class="w3-cards-3">
             @if($reviews->count() > 0)
-                
-                @include('app_view.shared.tabs',['review_count'=>$reviews->count()])
-                
-                
-                <div id="positives" class="tabsContent">
+                @include('app_view.shared.review_filter_tab',['total'=>$total,'avg'=>$avg])
 
-                    <table  class="table table-striped table-bordered table-hover">
+               <table  class="table table-striped table-bordered table-hover">
                         <tr>
                             <th>#</th>
                             <th>Reviewer's Name</th>
@@ -23,9 +36,20 @@
                             <th>Review</th>
                         </tr>
                     
-                    @foreach($positives as $key=>$review)
+                    @foreach($reviews as $key=>$review)
                         <tr>
-                            <td>{{++$i}}</td>
+                            <td>
+                                <?php 
+                               
+                                    if($page !== null && $page !== '1'){
+                                        ++$j;
+                                        $num = (int)($page*$pagination)-$pagination+$j;
+                                        echo $num;
+                                        
+                                    }
+                                    else echo ++$j;
+                                ?>
+                            </td>
                             <td>{{$review->reviewers_name}}</td>
                             <td>{{$review->reviewers_email}}</td>
                             <td>{{$review->rating}}</td>
@@ -34,37 +58,14 @@
                         </tr>
                     @endforeach
                     </table>
-                     
-                </div><!--positives-->
-
-
-                <div id="negatives" class="tabsContent">
-
-                    <table  class="table table-striped table-bordered table-hover">
-                        <tr>
-                            <th>#</th>
-                            <th>Reviewer's Name</th>
-                            <th>Reviewer's Email</th>
-                            <th>Rating</th>
-                            <th>Review Date</th> 
-                            <th>Review</th>
-                        </tr>
-                    
-                    @foreach($negatives as $key=>$review)
-                       
-                        <tr>
-                            <td>{{++$j}}</td>
-                            <td>{{$review->reviewers_name}}</td>
-                            <td>{{$review->reviewers_email}}</td>
-                            <td>{{$review->rating}}</td>
-                            <td>{{$review->created_at->toFormattedDateString()}}</td> 
-                            <td>{{$review->review}}</td>
-                        </tr>
-                    @endforeach
-                    </table>
-                     
-                </div><!--negatives-->
+                
+                
+                
                 {{$reviews->links()}}
+
+            @else
+               @include('app_view.shared.review_filter_tab')
+                <div class="alert alert-success">No Reviews</div>
             @endif
         </div>
         

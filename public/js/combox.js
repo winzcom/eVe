@@ -187,11 +187,20 @@ function initMap() {
 
         }
 
+        tinymce.init({
+            selector: 'textarea',
+             menubar:false,
+            statusbar: false,
+            entity_encoding: 'raw',
+        });
+
+
       
     }//end of handleFiles
 
 function sendFiles(e){
 
+    tinyMCE.triggerSave();
     e.preventDefault();
 
     if(fileArray.length !== 0){

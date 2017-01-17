@@ -36,6 +36,7 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
        <script src="{{asset('/js/jquery.steps.js')}}"></script>
+      
         
        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>-->
         
@@ -63,9 +64,8 @@
        transition-timing-function: ease;
    }*/
    </style>
-
    @yield('customstyle')
-
+    @yield('headjs')
 </head>
 <body>
 
@@ -145,6 +145,7 @@
 
     @yield('js')
     <script src="{{asset('/js/chosen.jquery.js')}}"></script>
+    
         <script>
             /*if('serviceWorker' in navigator){
                 navigator.serviceWorker.register('sw.js').then(function(){

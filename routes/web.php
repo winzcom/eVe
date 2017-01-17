@@ -33,7 +33,7 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::post('/gallery_upload','UserController@uploadPhotos');
 
-    Route::get('/reviews','UserController@getReviews');
+    Route::get('/reviews/{filter?}','UserController@getReviews');
 });// end of middleware=>auth grouping
 
 

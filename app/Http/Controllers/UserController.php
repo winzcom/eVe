@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\RegisterFormRequest;
 
 use GuzzleHttp\Client;
@@ -30,7 +31,11 @@ class UserController extends Controller
 
     public function home(){
         
-        $user =  User::find(Auth::user()->id);
+        $user =  User::with([
+                 'galleries'=>function($q){
+                     $q->where('user_id',Auth::id());
+                 }
+        ]) ->find(Auth::id());
         return view('app_view.home')->with(['user'=>$user,'path'=>$this->path]);
     }
 
@@ -45,9 +50,9 @@ class UserController extends Controller
 
       try{
 
-          $id = Auth::user()->id;
-          $user = User::where('id',$id)->get()->first();
-          User::where('id',$id)->update($filtered);
+         
+          $user = User::where('id',Auth::id())->first();
+          $user->update($filtered);
           $user->categories()->sync($request->category);
           return redirect('home')->with('message','Profile Updated');
                 
@@ -59,7 +64,18 @@ class UserController extends Controller
     }
 
     public function showProfileForm(Request $request){
-        $user = User::where(['name_slug'=>Auth::user()->name_slug,'id'=>Auth::user()->id])->get()->first();
+        $user = User::with(
+             [
+                    'categories'=>function($query){
+                    $query->where('company_id','=',Auth::id());
+                },
+                'vicinity'=>function($query){
+                    $query->where('id',Auth::user()->vicinity_id);
+                }
+        
+        ])->where(['name_slug'=>Auth::user()->name_slug,'id'=>Auth::id()])
+            ->get()->first();
+
         return view('app_view.edit')
                 ->with(['user'=>$user,'formInputs'=>User::getFormInputs(),
                         'states'=>Service::getStates(),
@@ -67,11 +83,12 @@ class UserController extends Controller
     }
 
     public function showGallery(){
-       $user =  User::find(Auth::user()->id);
+       $user =  User::find(Auth::id());
 
        $user = User::with(['galleries'=>function($q){
-           $q->orderBy('id','desc');
-       }])->find(Auth::user()->id);
+           $q->where('user_id','=',Auth::id())->orderBy('id','desc');
+       }])->find(Auth::id());
+
          return view('app_view.user_gallery')->with(['user'=>$user,'path'=>$this->path]);
     }
 
@@ -83,7 +100,7 @@ class UserController extends Controller
 
         
 
-        $names = Service::uploadPhotos($this->gallery_implementation,$request->photo,$request->caption);
+        $names = Service::uploadPhotos($this->gallery_implementation,$request->photo,$request->caption,Auth::user()->name_slug);
         if($request->ajax()){
 
             if(is_array($names))
@@ -104,24 +121,40 @@ class UserController extends Controller
         return back();
     }
 
-    public function getReviews(){
-        $reviews = Review::where('review_for',Auth::id());
-        $avg = $reviews->avg('rating');
-        $total = $reviews->count();
-        $reviews = $reviews->paginate(20);
-        $positives = $reviews->filter(function($review){
-            return $review->rating >=3; 
-        });
+    public function getReviews(Request $request,$filter = null){
 
-        $negatives = $reviews->filter(function($review){
-            return $review->rating<3;
-        });
-        return view('app_view.reviews')->with(['reviews'=>$reviews,
-                        
-                            'positives'=>$positives,
-                            'negatives'=>$negatives,
-                            'average'=>$avg,
-                            'total'=>$total
+        $query = Review::where('review_for',Auth::id());
+        $query1 = Review::where('review_for',Auth::id());
+        $reviews = null;
+        $pagination = 2;
+        $total_avg = $query1->select(DB::raw('count(rating) as total,avg(rating) as av'))->get();
+
+        if($filter){
+            if($filter == 'gt'){
+                $reviews = $query->where([
+                                            ['review_for','=',Auth::id()],
+                                            ['rating','>=',$total_avg[0]->av]
+                ])->paginate(2);
+            }
+            elseif($filter == 'lt'){
+                $reviews = $query->where([
+                                            ['review_for','=',Auth::id()],
+                                            ['rating','<',$total_avg[0]->av]
+                ])->paginate(2);
+            }
+        }
+
+        else{
+            $reviews = $query->paginate(3);
+        }
+
+        return view('app_view.reviews')->with(
+            [
+                'reviews'=>$reviews,
+                'pagination'=>$pagination,
+                'page'=>$request->query('page'),
+                'total'=>$total_avg[0]->total,
+                'avg'=>$total_avg[0]->av
             ]);
     }
 }

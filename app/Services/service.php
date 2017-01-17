@@ -59,6 +59,7 @@ class Service{
 
         $filtered =  array_except($data,['password_confirm','category','_token']);
         $filtered['password'] = bcrypt($filtered['password']);
+        //$filtered['description'] = htmlentities($filtered['description']);
         $name_slug =  ['name_slug'=>str_slug($filtered['name'])];
         $filtered = array_merge($filtered,$name_slug);
         $user =  User::create($filtered);
@@ -73,9 +74,9 @@ class Service{
             
     }
 
-    public static function uploadPhotos(GalleryInterface $gallery,array $files,array $captions){
+    public static function uploadPhotos(GalleryInterface $gallery,array $files,array $captions,string $name_slug){
 
-        return $gallery->uploadPhotos($files,$captions);
+        return $gallery->uploadPhotos($files,$captions,$name_slug);
     }
 
     public static function formRules(RegisterFormRequest $request){
@@ -85,6 +86,10 @@ class Service{
 
     public static function getVicinities(){
         return Vicinity::OrderBy('name')->get();
+    }
+
+    public static function getCategoriesStatesVicinities(){
+
     }
    
 }

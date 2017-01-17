@@ -19,15 +19,15 @@ class DetailsController extends Controller
 
     public function details($slug){
 
-        $user = User::where('name_slug',$slug)->first();
+        $user = User::with('reviews')->where('name_slug',$slug)->first();
 
         $similars = User::whereHas('categories',function($q) use ($user){
             $q->whereIn('categories.id',$user->categories()->pluck('categories.id'));
         })->where('id','!=',$user->id)->orderBy('id','desc')->take(3)->get();
 
         
-        $directory = public_path("storage".DIRECTORY_SEPARATOR."images");
-        $files = Service::getImages($directory);
+       // $directory = public_path("storage".DIRECTORY_SEPARATOR."images");
+        //$files = Service::getImages($directory);
         return view('app_view.item')->with(['userd'=>$user,'path'=>$this->path,
                     'events'=>Service::getEvents(),
                     'similars'=>$similars,

@@ -30,6 +30,15 @@
     #first_col{
         margin-left:10px;
     }
+    
+    .glyphicon-star{
+       color:#DAA520;
+    }
+
+    .glyphicon-star-empty{
+       color:#333;
+    }
+
 
     .tabs{
         list-style-type: none;
@@ -76,11 +85,11 @@
                     <h3 id="company_name">{{$userd->name}}</h3>
                 </header>
                 <div id="Demo1" class="w3-animate-zoom w3-show">
-                     @include('app_view.shared.gallery',['galleries'=>$userd->galleries()->get()])
+                     @include('app_view.shared.gallery',['galleries'=>$userd->galleries])
                 </div>
                     <div class="w3-padding-left w3-margin-top" id="allWrapper"><!--start-of-allWrapper-->
                         <p id ="address"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                        {{$userd->house_no}} {{$userd->street_name}} {{$userd->vicinity->name}} {{$userd->state}}</p>
+                        {{$userd->house_no}} {{$userd->street_name}} {{$userd->vicinity->name or ""}} {{$userd->state}}</p>
 
                    
 
@@ -130,7 +139,7 @@
                     <button class="w3-btn w3-blue w3-margin-top" onclick="document.getElementById('id03').style.display='block'">
                         Write a Review 
                     </button>
-                    @include('app_view.shared.display_review',['reviews'=>$userd->reviews()])
+                    @include('app_view.shared.display_review',['reviews'=>$userd->reviews])
                    
                 </div><!--id=Review-->
 
