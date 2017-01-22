@@ -34,6 +34,8 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('/gallery_upload','UserController@uploadPhotos');
 
     Route::get('/reviews/{filter?}','UserController@getReviews');
+
+    Route::get('/gallery/publish','UserController@publish');
 });// end of middleware=>auth grouping
 
 

@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+
+@section('headjs')
+ <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>
+@endsection
+
 @section('content')
 
 <div class="container">
@@ -90,14 +95,15 @@
         $(document).ready(function(){
 
             $(".chzn-select").chosen();
-            /*$('#accordion').accordion({
-                collapsible: true
-            })*/
-           // $('#accordion').steps();
 
     });
 
 
-
+    tinymce.init({
+            selector: 'textarea',
+             menubar:false,
+            statusbar: false,
+            width: "100%"
+        });
   </script>
 @endsection

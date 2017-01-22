@@ -10,6 +10,10 @@
         <li role="presentation">
             <button class="tablinks" style="border:none;background-color:#fff;" onclick="openCity(this,'quotations')">Quotations</button>
         </li>
+
+         <li role="presentation">
+            <button class="tablinks" style="border:none;background-color:#fff;" onclick="openCity(this,'offdays')">Off Days</button>
+        </li>
         
 </ul>
 

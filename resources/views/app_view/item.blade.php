@@ -3,15 +3,6 @@
 @section('customstyle')
 <style>
 
-   /* #img{
-            -webkit-transition: width 1s;
-            transition: width 1s ;
-    }*/
-
-    #img:hover{
-        width:0px; height:auto;
-        transition-timing-function: ease;
-    }
     #Map {
         width: 100%;
         height: 400px;
@@ -132,7 +123,7 @@
                 </div>
                 <div id = "Description" class="tabsContent">
                     <h4>Description</h4>
-                    <p>{{$userd->description}}</p>
+                    <p>@include('app_view.shared.show_description',['description'=>$userd->description])</p>
                 </div><!-- id = Description-->
 
                 <div id="Review" class="tabsContent">
@@ -176,8 +167,9 @@
 
 @section('js')
     <script src="{{asset('/slick/slick.min.js')}}"></script>
-    <script src="{{asset('/js/combox.js')}}"></script>
     <script src="{{asset('/js/jqueries.js')}}"></script>
+    <script src="{{asset('/js/combox.js')}}"></script>
+    
     <script type="text/javascript">
         function myFunction(id) {
                         var x = document.getElementById(id);

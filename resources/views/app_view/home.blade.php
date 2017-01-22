@@ -34,19 +34,19 @@
 
             <div id ="address" style="margin-top:10px; margin-left:10px;">
                 <p class="line"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                {{Auth::user()->house_no}}, {{Auth::user()->street_name}}, {{Auth::user()->state}}</p>
+                {{$user->house_no}}, {{$user->street_name}}, {{Auth::user()->state}}</p>
 
                 <h4>Full Name: </h4>
-                <p class="line">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</p>
+                <p class="line">{{$user->first_name}} {{Auth::user()->last_name}}</p>
 
                 <h4><span class="glyphicon glyphicon-envelope"></span></h4>
-                <p class="line">{{Auth::user()->email}} </p>
+                <p class="line">{{$user->email}} </p>
 
                 <h4><span class="glyphicon glyphicon-earphone"></span></h4>
-                <p class="line">{{Auth::user()->phone_no}}</p>
+                <p class="line">{{$user->phone_no}}</p>
 
                 <h4>Description</h4>
-                <p>{{(Auth::user()->description)}}</p>
+                <p>@include('app_view.shared.show_description',['description'=>$user->description])</p>
             </div>
 
             <!--<div style="margin-left:5px;">
@@ -98,6 +98,28 @@
                     No Quotations
                 </h4>
             </div><!--quotation-->
+
+            <div id="offdays" class="tabsContent">
+                @if(count($user->offdays) == 0)
+                <h4>
+                    No Off Days Recorded
+                </h4>
+                @else
+                   @include('app_view.shared.display_offdays',['offdays'=>$user->offdays,'period'=>$period])
+                @endif
+                <form>
+
+                    <select   class="form-control" id="offday" name="offday">
+                        <option></option>
+                            <?php   
+
+                            foreach ( $period as $dt )
+                            echo '<option>'.$dt->format( "l jS \\of F Y" ).'</option>';
+                    ?>
+                    </select>
+                 <input type="submit" value="Add Date" class="w3-input w3-blue"/>
+    </form>
+            </div><!--offdays-->
     
         </div>
     </div><!-- col-md-gallery-address-->

@@ -99,12 +99,21 @@ class User extends Authenticatable
         return $this->hasMany('App\Gallery');
     }
 
+    public function getDescriptionAttribute($value){
+
+        return  html_entity_decode($value);
+    }
+
     public function reviews(){
         return $this->hasMany('App\Review','review_for');
     }
 
     public function vicinity(){
         return $this->belongsTo('App\Vicinity','vicinity_id');
+    }
+
+    public function offdays(){
+        return $this->hasMany('App\OffDays','user_id');
     }
 
     public function getRouteKeyName(){

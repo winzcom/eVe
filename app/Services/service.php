@@ -36,6 +36,10 @@ class Service{
 
     }
 
+    public static function getFiveCompanies(){
+        return User::has('reviews')->take(5)->get();
+    }
+
     public static function getStates(){
 
         /*$expiresAt = Carbon::now()->addMinutes(1);
@@ -49,6 +53,17 @@ class Service{
     public static function getImages($directory){
         $files = File::files($directory);
         return $files;
+    }
+
+    public static function getTop5Companies(){
+        return User::with(['galleries','reviews'=>function($q){
+
+            $q->select(DB::raw(`*,((select count("reviews_for") from reviews)/(select count(distinct reviews_for from reviews))
+                as 'avg_num_votes'
+                (select avg("ratings") from reviews) as 'avg_rating',count("reviews_for") as 'this_num_votes',
+                avg("ratings") as 'this_num_ratings' from ratings groupby ratings,reviews_for
+            `));
+        }])->take(5)->get();    
     }
 
     public static function getEvents(){

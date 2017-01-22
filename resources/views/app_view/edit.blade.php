@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+
+@section('headjs')
+ <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>
+@endsection
+
 @section('content')
         <div class="container-fluid">
             <div class="row">
@@ -103,6 +108,13 @@
             /*$('#accordion').accordion({
                 collapsible: true
             })*/
+
+            tinymce.init({
+            selector: 'textarea',
+             menubar:false,
+            statusbar: false,
+            width: "100%"
+        });
 
     });
 

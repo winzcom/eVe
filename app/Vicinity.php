@@ -14,6 +14,6 @@ class Vicinity extends Model
     ];
 
     public function user(){
-        return $this->hasMany('App\User','vicinity');
+        return $this->hasMany('App\User');
     }
 }

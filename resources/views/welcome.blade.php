@@ -14,31 +14,36 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="{{asset('/css/app.css')}}">
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+        <link rel="stylesheet" href="{{asset('/css/w3.css')}}">
+        <link rel="stylesheet" href="{{asset('/css/my_style.css')}}">
         <link rel="stylesheet" href="{{asset('/css/chosen.css')}}">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
 
 
         <!-- Styles -->
         <style>
-        @keyframes animate{
-            from {background:scale(1);}
-            to{transform:scale(1.3)}
-        }
+        .img{
+    border-right:solid 5px black;}
 
         html, body {
                 /*background-color: #fff;*/
-               background: url("images/African-Rhythm-7.png") no-repeat center center fixed; 
-                -webkit-background-size: cover;
-                -moz-background-size: cover;
-                -o-background-size: cover;
-                background-size: cover;
-                
-                overflow-x: hidden;
-                /*color: #636b6f;*/
                 font-family: 'Raleway', sans-serif;
                 font-weight: 670;
                 height: 100vh;
                 margin: 0;
+            }
+
+            #contain{
+                     background: url("images/African-Rhythm-7.png") no-repeat center center fixed; 
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                overflow:hidden;
+                height:100vh;
+                margin-bottom:16px;
+                /*color: #636b6f;*/
+
             }
 
             .full-height {
@@ -141,6 +146,10 @@
                     @include('app_view.shared.search_cat_form')
                 </div>
             </div>
+        </div>
+        <div class="container-fluid">
+        
+           @include('app_view.shared.partial_list_template',['companies'=>$companies])
         </div>
          <script src="{{asset('/js/chosen.jquery.js')}}"></script>
          <script src="{{asset('/js/combox.js')}}"></script>

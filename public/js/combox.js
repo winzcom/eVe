@@ -186,23 +186,12 @@ function initMap() {
         }
 
         }
-
-        tinymce.init({
-            selector: 'textarea',
-             menubar:false,
-            statusbar: false,
-            entity_encoding: 'raw',
-        });
-
-
       
     }//end of handleFiles
 
 function sendFiles(e){
 
-    tinyMCE.triggerSave();
-    e.preventDefault();
-
+    event.preventDefault();
     if(fileArray.length !== 0){
 
 
@@ -250,7 +239,7 @@ function sendFiles(e){
             }
         })//end of Ajax Call
     }//end of If
-    
+    return false;   
 }
 
 function handleError(datatext){

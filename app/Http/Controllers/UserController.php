@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\RegisterFormRequest;
 
 use GuzzleHttp\Client;
-
+use Carbon\Carbon;
 use App\User;
 use App\Service\Service;
 use App\Interfaces\GalleryInterface;
+use App\Gallery;
 use App\Review;
 
 class UserController extends Controller
@@ -22,21 +23,34 @@ class UserController extends Controller
     
 
     private $gallery_implementation;
+    private $period;
 
     public function __construct(GalleryInterface $gallery_implementation){
 
         $this->gallery_implementation = $gallery_implementation;
          $this->path = asset('storage/images/');
+         $this->period = $this->computeDays();
+
     }
 
     public function home(){
         
         $user =  User::with([
-                 'galleries'=>function($q){
-                     $q->where('user_id',Auth::id());
-                 }
+                 'galleries',
+                 'reviews',
+                 'offdays'
         ]) ->find(Auth::id());
-        return view('app_view.home')->with(['user'=>$user,'path'=>$this->path]);
+        return view('app_view.home')->with(['user'=>$user,'path'=>$this->path,'period'=>$this->period]);
+    }
+
+    private function computeDays(){
+                $begin = new Carbon(); 
+                $begin->addDays(1);
+                $end = $begin->copy()->addMonths(3);
+                $interval = \DateInterval::createFromDateString('1 day');
+                $period = new \DatePeriod($begin, $interval, $end);
+            
+                return $period;
     }
 
     public function updateProfile(RegisterFormRequest $request){
@@ -83,13 +97,18 @@ class UserController extends Controller
     }
 
     public function showGallery(){
-       $user =  User::find(Auth::id());
+    
+        $galleries = Gallery::where('user_id',Auth::id())->orderBy('id','desc')->get();
+         return view('app_view.user_gallery')->with(['galleries'=>$galleries,'path'=>$this->path]);
+    }
 
-       $user = User::with(['galleries'=>function($q){
-           $q->where('user_id','=',Auth::id())->orderBy('id','desc');
-       }])->find(Auth::id());
+    public function publish(Request $request){
 
-         return view('app_view.user_gallery')->with(['user'=>$user,'path'=>$this->path]);
+        $query = Gallery::where('id',$request->image_id);
+        if($request->published == "true")
+            $query->update(['publish'=>1]);
+        else 
+            $query->update(['publish'=>0]);
     }
 
     public function uploadPhotos(Request $request){

@@ -3,7 +3,7 @@
                 <div class="">
                     <li class="list-group-item w3-card-2 li">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 img">
                                 @if($company->galleries()->count() !== 0)
                                 <img src="{{asset('storage/images/')}}/{{$company->galleries()->first()->image_name}}" alt="..." width="250px;" height=150 id="img">
                                 @else
@@ -18,7 +18,7 @@
                                         from {{$company->reviews->count()}} reviews
                                     </small>
                                 </h3>
-                                <p>{{str_limit($company->description,300)}}</p>
+                                <p><?php echo str_limit($company->description,100);?></p>
                                 <div id ="address">
                                     <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                                         {{$company->house_no}} {{$company->street_name}} 
