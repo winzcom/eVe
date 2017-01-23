@@ -36,6 +36,10 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/reviews/{filter?}','UserController@getReviews');
 
     Route::get('/gallery/publish','UserController@publish');
+
+    Route::post('add/offdays','UserController@addOffDays');
+
+    Route::get('remove/offdays','UserController@removeOffDays');
 });// end of middleware=>auth grouping
 
 

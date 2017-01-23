@@ -107,19 +107,19 @@ function initMap() {
 
          
         if(files !== null && files.length !== 0 ){
-            fileArray = [].slice.call(files);
+            if(fileArray.length == 0)
+                fileArray = [].slice.call(files);
 
             var gallery_info = document.getElementById("alert");
             var gallery_view = document.getElementById('gallery_view');
 
-             var preview =  document.getElementById("preview")
-             preview.innerHTML = "";
+            var preview =  document.getElementById("preview")
+            preview.innerHTML = "";
             preview.style.overflowY = "scroll";
             preview.style.maxHeight = "400px";
 
              var fileElem = document.getElementById("fileElem")
-             var filesarray = [];
-             filesarray = fileElem.files;
+             
              var imageType = /^image\//;
 
              if(gallery_info)
@@ -171,7 +171,7 @@ function initMap() {
                             
                         preview.innerHTML = '<div class="alert alert-success">No Image Selected</div>';
                     }
-                })
+                })//end of IIEF
 
             })(img,span,input,coldiv,i)
 

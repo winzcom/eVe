@@ -9,8 +9,14 @@ class OffDays extends Model
 {
     //
      protected $table = 'offdays';
+     protected $fillable = [
+         'from_date',
+         'to_date',
+         'user_id'
+     ];
      protected $dates = [
-         'offday'
+         'from_date',
+         'to_date'
      ];
 
      public function user(){

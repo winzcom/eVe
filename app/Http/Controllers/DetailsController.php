@@ -19,7 +19,9 @@ class DetailsController extends Controller
 
     public function details($slug){
 
-        $user = User::with('reviews')->where('name_slug',$slug)->first();
+        $user = User::with(['reviews'=>function($q){
+                    $q->orderBy('id','desc');
+        }])->where('name_slug',$slug)->first();
 
         $similars = User::whereHas('categories',function($q) use ($user){
             $q->whereIn('categories.id',$user->categories()->pluck('categories.id'));

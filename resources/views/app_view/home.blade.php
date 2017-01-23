@@ -4,7 +4,9 @@
 <style>
     .line{
         border-bottom:dotted 1px black;
+        margin-bottom:10px;
     }
+    .li{border:none;}
 </style>
 
 @endsection
@@ -36,16 +38,27 @@
                 <p class="line"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                 {{$user->house_no}}, {{$user->street_name}}, {{Auth::user()->state}}</p>
 
-                <h4>Full Name: </h4>
-                <p class="line">{{$user->first_name}} {{Auth::user()->last_name}}</p>
+                <div class="line">
+                    <span>Full Name: </span>
+                    {{$user->first_name}} {{Auth::user()->last_name}}
+                </div>
 
-                <h4><span class="glyphicon glyphicon-envelope"></span></h4>
-                <p class="line">{{$user->email}} </p>
+                <div class="line">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                     {{$user->email}} 
+                </div>
 
-                <h4><span class="glyphicon glyphicon-earphone"></span></h4>
-                <p class="line">{{$user->phone_no}}</p>
+                <div class="line">
+                    <span class="glyphicon glyphicon-earphone "></span>
+                    {{$user->phone_no}}
+                </div>
 
-                <h4>Description</h4>
+                <div class="line">
+                    <span> Categories: </span>
+                    {{ implode(',',$user->categories()->pluck('name')->all())}}
+                </div>
+
+                <h5>Description</h5>
                 <p>@include('app_view.shared.show_description',['description'=>$user->description])</p>
             </div>
 
@@ -73,7 +86,7 @@
                         
                        <!--@endforeach
                       </div>--><!-- slick-->
-                      @include('app_view.shared.gallery',['galleries'=>$user->galleries])
+                      @include('app_view.shared.gallery',['galleries'=>$user->galleries,'classname'=>'home'])
         </div>
         <div class="w3-card w3-margin w3-padding">
         
@@ -100,25 +113,23 @@
             </div><!--quotation-->
 
             <div id="offdays" class="tabsContent">
-                @if(count($user->offdays) == 0)
-                <h4>
-                    No Off Days Recorded
-                </h4>
-                @else
-                   @include('app_view.shared.display_offdays',['offdays'=>$user->offdays,'period'=>$period])
-                @endif
-                <form>
+                <ul class="list-group" id="offdays_ul">
+                    @if(count($user->offdays) == 0)
+                    <h4>
+                        You are Available all through
+                    </h4>
+                    @else
+                    
+                    @include('app_view.shared.display_offdays',['offdays'=>$user->offdays])
+                    @endif
+                </ul>
+                <form id="offdays" action="{{url('/offdays')}}" method="post">
+                 {{ csrf_field() }}
+                <input type="text" value="" class="w3-input" id="from" name="from_date" placeholder ="from"/>
+                <input type="text" value="" class="w3-input" id="to" name="to_date" placeholder ="to"/>
 
-                    <select   class="form-control" id="offday" name="offday">
-                        <option></option>
-                            <?php   
-
-                            foreach ( $period as $dt )
-                            echo '<option>'.$dt->format( "l jS \\of F Y" ).'</option>';
-                    ?>
-                    </select>
-                 <input type="submit" value="Add Date" class="w3-input w3-blue"/>
-    </form>
+                 <input type="submit" id="submit_date" value="Add Date" class="w3-input w3-blue"/>
+            </form>
             </div><!--offdays-->
     
         </div>
@@ -131,7 +142,7 @@
 @section('js')
     <script src="{{asset('/slick/slick.min.js')}}"></script>
     <script src="{{asset('/js/combox.js')}}"></script>
-    <!--<script src="{{asset('/js/jqueries.js')}}"></script>-->
+    <script src="{{asset('/js/jqueries.js')}}"></script>
     <script type="text/javascript">
 
         $(document).ready(function(){
@@ -142,7 +153,7 @@
                 collapsible: true
             })*/
 
-            $('.slick-carousel').slick({
+            $('.home').slick({
                 infinite: false,
                 slidesToShow: 3,
                 slidesToScroll: 3,

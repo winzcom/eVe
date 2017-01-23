@@ -86,7 +86,17 @@
 
                 <!--<h2>Contact</h2>-->
                     <p><span class="glyphicon glyphicon-envelope"></span> {{$userd->email}}
-                    <span class="glyphicon glyphicon-earphone"></span> <a href="tel:{{$userd->phone_no}}">{{$userd->phone_no}}</a>
+                    <span class="glyphicon glyphicon-earphone"></span> <a href="tel:{{$userd->phone_no}}">{{$userd->phone_no}}</a></br>
+                    @if(count($userd->offdays) > 0)
+                      Not Available On
+                      <div class="alert alert-success"> 
+                        @foreach($userd->offdays as $offday)
+                            <span class="date ">
+                               || {{$offday->from_date->format('l jS \\of F Y').'--'.$offday->to_date->format('l jS \\of F Y')}}
+                            </span>
+                            @endforeach
+                        </div>
+                    @endif
                     </p>
                     <!--<button class="w3-btn w3-blue w3-margin-bottom" 
                         onclick="document.getElementById('id01').style.display='block'">

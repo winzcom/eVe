@@ -15,6 +15,7 @@ use App\Service\Service;
 use App\Interfaces\GalleryInterface;
 use App\Gallery;
 use App\Review;
+use App\OffDays;
 
 class UserController extends Controller
 {
@@ -29,7 +30,7 @@ class UserController extends Controller
 
         $this->gallery_implementation = $gallery_implementation;
          $this->path = asset('storage/images/');
-         $this->period = $this->computeDays();
+        // $this->period = $this->computeDays();
 
     }
 
@@ -37,10 +38,12 @@ class UserController extends Controller
         
         $user =  User::with([
                  'galleries',
-                 'reviews',
+                 'reviews'=>function($q){
+                     $q->orderBy('id','asc');
+                 },
                  'offdays'
         ]) ->find(Auth::id());
-        return view('app_view.home')->with(['user'=>$user,'path'=>$this->path,'period'=>$this->period]);
+        return view('app_view.home')->with(['user'=>$user,'path'=>$this->path]);
     }
 
     private function computeDays(){
@@ -175,5 +178,32 @@ class UserController extends Controller
                 'total'=>$total_avg[0]->total,
                 'avg'=>$total_avg[0]->av
             ]);
+    }
+
+    public function addOffDays(Request $request){
+        $from_date = date("Y-m-d",strtotime($request->from_date));
+        $to_date = date("Y-m-d",strtotime($request->to_date));
+        
+        if($request->ajax()){
+           $offdays =  OffDays::create(['from_date'=>$from_date,
+                            'to_date'=>$to_date,
+                            'user_id'=>Auth::id()
+                        ]);
+                return json_encode(array('from_date'=>$offdays->from_date->format('l jS \\of F Y'),
+                                         'to_date'=>$offdays->to_date->format('l jS \\of F Y'),
+                                         'date_id'=>$offdays->id
+                ));
+        }
+    }//end of addOffDays
+
+    public function removeOffDays(Request $request){
+
+        if($request->ajax()){
+             OffDays::where(['id'=>$request->date_id,
+                        'user_id'=>Auth::id()
+            ])->delete();
+            return json_encode(array('status'=>'Date Deleted'));
+        }
+       
     }
 }
