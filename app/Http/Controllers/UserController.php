@@ -183,7 +183,11 @@ class UserController extends Controller
     public function addOffDays(Request $request){
         $from_date = date("Y-m-d",strtotime($request->from_date));
 
-        $to_date = $request->to_date !== null ?date("Y-m-d",strtotime($request->to_date)): $from_date;
+        if($request->to_date == null || $request->to_date == '' || empty($request->to_date)){
+            $to_date = $from_date;
+        }
+        else 
+            $to_date = date("Y-m-d",strtotime($request->to_date));
         
         if($request->ajax()){
            $offdays =  OffDays::create(['from_date'=>$from_date,
