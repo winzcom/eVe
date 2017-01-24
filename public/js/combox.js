@@ -8,9 +8,14 @@ if(state){
 }
 
 let count = 0;
-let first = document.getElementsByClassName("tabsContent")[0].getAttribute('id');
+let first,tab ; 
 
-let tab = document.getElementsByClassName("tablinks")[0];
+if(document.getElementsByClassName("tabsContent")[0])
+    first = document.getElementsByClassName("tabsContent")[0].getAttribute('id');
+
+if(document.getElementsByClassName("tablinks")[0])
+    tab = document.getElementsByClassName("tablinks")[0];
+
 
 
 
