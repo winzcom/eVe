@@ -1,3 +1,4 @@
+
 <span>{{number_format($reviews->avg('rating'),1)}}/5<span>
                     @foreach($reviews as $review)
                         <h4>

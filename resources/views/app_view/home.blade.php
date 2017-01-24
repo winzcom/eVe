@@ -23,24 +23,21 @@
 @endif
     
    <div class="row">
-    <div class="col-md-4">
-        <div class="w3-card-2 w3-margin-left">
+    <div class="col-md-6">
+        <div class="w3-card-2 w3-margin-left w3-padding">
             <div class="w3-accordion ">
                 <header class="w3-container w3-black" onclick="myFunction('Demo1')">
                         <h4>Details</h4>
                 </header>
-                <!--<div id="Demo1" class="w3-accordion-content w3-animate-zoom w3-show">
-                    <img src="{{asset('images/tl.jpg')}}" width="100%">
-                </div>-->
             </div>
 
-            <div id ="address" style="margin-top:10px; margin-left:10px;">
+            <div id style="margin-top:10px; margin-left:10px;">
                 <p class="line"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                {{$user->house_no}}, {{$user->street_name}}, {{Auth::user()->state}}</p>
+                {{$user->house_no}}, {{$user->street_name}}, {{$user->state}}</p>
 
                 <div class="line">
                     <span>Full Name: </span>
-                    {{$user->first_name}} {{Auth::user()->last_name}}
+                    {{$user->first_name}} {{$user->last_name}}
                 </div>
 
                 <div class="line">
@@ -55,7 +52,7 @@
 
                 <div class="line">
                     <span> Categories: </span>
-                    {{ implode(',',$user->categories()->pluck('name')->all())}}
+                    {{ implode(',',$user->categories->pluck('name')->all())}}
                 </div>
 
                 <h5>Description</h5>
@@ -70,8 +67,16 @@
                 <h4>Description</h4>
                 <p>{{Auth::user()->description}}</p>
             </div>-->
+        </div><!--w3-card-2 w3-margin-left-->
+
+        <div class="w3-card-2 w3-margin-left w3-padding">
+            <header>
+                <!--<h5 data-chart = "">Chart</h5>-->
+            </header>
         </div>
-    </div><!-- col-md-company-logo-->
+
+    </div><!--col-md-4-->
+
     <div class="col-md-6">
         <div class="w3-card-4 w3-margin-left">
             <header class="container-fluid w3-black w3-margin-bottom "><h4>Gallery</h4></header>
@@ -102,7 +107,8 @@
                     No Reviews
                 </h4>
                 @else
-                    @include('app_view.shared.display_review',['reviews'=>$user->reviews])
+                    <p>Showing Latest Five</p>
+                    @include('app_view.shared.display_review',['reviews'=>$user->reviews->take(5)])
                 @endif
             </div><!--Reviews-->
 
@@ -145,6 +151,8 @@
     <script src="{{asset('/js/jqueries.js')}}"></script>
     <script type="text/javascript">
 
+       
+
         $(document).ready(function(){
 
            // $(".chzn-select").chosen()
@@ -152,7 +160,7 @@
             /*$('#accordion').accordion({
                 collapsible: true
             })*/
-
+            
             $('.home').slick({
                 infinite: false,
                 slidesToShow: 3,

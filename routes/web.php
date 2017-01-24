@@ -13,23 +13,22 @@
 
 use  Illuminate\Http\Request;
 
-Route::get('/', 'GuestController@index');
 
 Route::match(['post','get'],'/search','SearchController@search');
 
-Route::get('type_search','SearchController@search_by_typing');
+Route::get('/type_search','SearchController@search_by_typing');
 
 Route::group(['middleware'=>'auth'],function(){
 
-    Route::get('home','UserController@home');
+    Route::get('/home','UserController@home');
 
-    Route::get('profile/edit/{user}','UserController@showProfileForm');
+    Route::get('/profile/edit/{user}','UserController@showProfileForm');
 
-    Route::post('profile/edit','UserController@updateProfile');
+    Route::post('/profile/edit','UserController@updateProfile');
 
-    Route::get('gallery','UserController@showGallery');
+    Route::get('/gallery','UserController@showGallery');
 
-    Route::post('delete_gallery','UserController@deletePhotos');
+    Route::post('/delete_gallery','UserController@deletePhotos');
 
     Route::post('/gallery_upload','UserController@uploadPhotos');
 
@@ -37,7 +36,7 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::get('/gallery/publish','UserController@publish');
 
-    Route::post('add/offdays','UserController@addOffDays');
+    Route::post('/add/offdays','UserController@addOffDays');
 
     Route::get('remove/offdays','UserController@removeOffDays');
 });// end of middleware=>auth grouping
@@ -51,4 +50,6 @@ Route::post('/client_mail','MailController@sendMail');
 Route::post('/write_review','GuestController@writeReview');
 
 Auth::routes();
+
+Route::get('/', 'GuestController@index');
 

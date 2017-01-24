@@ -39,7 +39,7 @@ class UserController extends Controller
         $user =  User::with([
                  'galleries',
                  'reviews'=>function($q){
-                     $q->orderBy('id','asc');
+                     $q->orderBy('id','desc');
                  },
                  'offdays'
         ]) ->find(Auth::id());
@@ -182,7 +182,8 @@ class UserController extends Controller
 
     public function addOffDays(Request $request){
         $from_date = date("Y-m-d",strtotime($request->from_date));
-        $to_date = date("Y-m-d",strtotime($request->to_date));
+
+        $to_date = $request->to_date !== null ?date("Y-m-d",strtotime($request->to_date)): $from_date;
         
         if($request->ajax()){
            $offdays =  OffDays::create(['from_date'=>$from_date,
