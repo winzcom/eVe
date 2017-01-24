@@ -5,7 +5,7 @@
                             {{$review->reviewers_name}} 
                             
                         </h4><span><?php 
-                                $array = array(true,true,true,false);
+                                
                                 $count = $review->rating;
                                 for($i=0;$i<$count;$i++){
                                         
