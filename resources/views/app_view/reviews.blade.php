@@ -12,6 +12,10 @@
         color:white;
         text-decoration:none;
     }
+
+    .glyphicon-star{
+       color:#DAA520;
+    }
     
 </style>
 
@@ -52,7 +56,17 @@
                             </td>
                             <td>{{$review->reviewers_name}}</td>
                             <td>{{$review->reviewers_email}}</td>
-                            <td>{{$review->rating}}</td>
+                            <td  width="8%">
+                                <?php 
+                                
+                                $count = $review->rating;
+                                for($i=0;$i<$count;$i++){
+                                        
+                                            echo  '<span class="glyphicon glyphicon-star"></span>';
+                             
+                                }            
+                    ?>
+                            </td>
                             <td>{{$review->created_at->toFormattedDateString()}}</td> 
                             <td>{{$review->review}}</td>
                         </tr>
