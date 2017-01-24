@@ -12,10 +12,9 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/*body {
+body {
   margin: 0;
-  background-color: #fff;
-}*/
+}
 
 article,
 aside,
@@ -1381,8 +1380,8 @@ body {
   font-family: "Raleway", sans-serif;
   font-size: 14px;
   line-height: 1.6;
-  /*color: #636b6f;*/
-  color:#000;
+  color: #636b6f;
+  background-color: #bf5329;
 }
 
 input,

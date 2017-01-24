@@ -13,17 +13,17 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+/*Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
     el: '#app',
     methods:{
         submitEmail:function(){
             console.log('<<<>>>>>>>')
-           /* formContents = jQuery("#mail").serialize();
+           formContents = jQuery("#mail").serialize();
             axios.post('/client_mail',formContents).then(function(response){
                 alert(response)
-            })*/
+            })
         }
     }
-});
+});*/
