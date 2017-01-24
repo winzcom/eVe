@@ -27,8 +27,9 @@ class GuestController extends Controller
      */
     public function index()
     {
-    
-        return view('welcome');
+        $companies = Service::getFiveCompanies();
+        //$companies = Service::getTop5Companies();
+        return view('welcome')->with('companies',$companies);
     }
 
     public function writeReview(Request $request){

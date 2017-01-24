@@ -28,22 +28,25 @@
 
     </ul>
 </li>-->
+<?php $url = Request::url();?>
+
 <li><a href="{{ url('/profile/edit',Auth::user()->name_slug) }}" <?php 
-    if(Request::url() == url('/profile/edit',Auth::user()->name_slug)) echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
+    if($url == url('/profile/edit',Auth::user()->name_slug)) echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
 ?> class="cat" style="color:#fff;">Profile</a>
 </li>
 
 <li><a href="{{ url('/reviews') }}" class="cat"  <?php 
-    if(Request::url() == url('/reviews')) echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
+    if($url == url('/reviews') || $url == url('/reviews/gt') || $url == url('/reviews/lt')) 
+    echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
 ?> style="color:#fff;">Reviews</a>
 </li>
 
 <li><a href="{{ url('/quotes') }}" <?php 
-    if(Request::url() == url('/quotes')) echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
+    if($url == url('/quotes')) echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
 ?> class="cat" style="color:#fff;">Quotations</a>
 </li>
 
 <li><a href="{{ url('/gallery') }}" <?php 
-    if(Request::url() == url('/gallery')) echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
+    if($url == url('/gallery')) echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
 ?> class="cat" style="color:#fff;">Gallery</a>
 </li>

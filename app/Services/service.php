@@ -36,6 +36,10 @@ class Service{
 
     }
 
+    public static function getFiveCompanies(){
+        return User::has('reviews')->take(5)->get();
+    }
+
     public static function getStates(){
 
         /*$expiresAt = Carbon::now()->addMinutes(1);
@@ -51,6 +55,17 @@ class Service{
         return $files;
     }
 
+    public static function getTop5Companies(){
+        return User::with(['galleries','reviews'=>function($q){
+
+            $q->select(DB::raw(`*,((select count("reviews_for") from reviews)/(select count(distinct reviews_for from reviews))
+                as 'avg_num_votes'
+                (select avg("ratings") from reviews) as 'avg_rating',count("reviews_for") as 'this_num_votes',
+                avg("ratings") as 'this_num_ratings' from ratings groupby ratings,reviews_for
+            `));
+        }])->take(5)->get();    
+    }
+
     public static function getEvents(){
         return DB::table('events')->select('name')->OrderBy('name')->get();
     }
@@ -59,6 +74,7 @@ class Service{
 
         $filtered =  array_except($data,['password_confirm','category','_token']);
         $filtered['password'] = bcrypt($filtered['password']);
+        //$filtered['description'] = htmlentities($filtered['description']);
         $name_slug =  ['name_slug'=>str_slug($filtered['name'])];
         $filtered = array_merge($filtered,$name_slug);
         $user =  User::create($filtered);
@@ -73,9 +89,9 @@ class Service{
             
     }
 
-    public static function uploadPhotos(GalleryInterface $gallery,array $files,array $captions){
+    public static function uploadPhotos(GalleryInterface $gallery,array $files,array $captions,string $name_slug){
 
-        return $gallery->uploadPhotos($files,$captions);
+        return $gallery->uploadPhotos($files,$captions,$name_slug);
     }
 
     public static function formRules(RegisterFormRequest $request){
@@ -85,6 +101,10 @@ class Service{
 
     public static function getVicinities(){
         return Vicinity::OrderBy('name')->get();
+    }
+
+    public static function getCategoriesStatesVicinities(){
+
     }
    
 }

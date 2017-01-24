@@ -15,8 +15,8 @@ class AlterVicinity extends Migration
     {
         Schema::table('companies', function (Blueprint $table) {
             //
-            $table->integer('vicinity')->change();
-            $table->foreign('vicinity')->references('id')->on('vicinities')->onDelete('cascade')->change();
+            //$table->integer('vicinity')->change();
+            //$table->foreign('vicinity')->references('id')->on('vicinities')->onDelete('cascade')->change();
         });
     }
 

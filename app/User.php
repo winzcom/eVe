@@ -22,7 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name','email','password','first_name','last_name',
         'category','state',
-        'vicinity',
+        'vicinity_id',
         'description',
         'phone_no','house_no','street_name','name_slug'
     ];
@@ -99,12 +99,21 @@ class User extends Authenticatable
         return $this->hasMany('App\Gallery');
     }
 
+    public function getDescriptionAttribute($value){
+
+        return  html_entity_decode($value);
+    }
+
     public function reviews(){
         return $this->hasMany('App\Review','review_for');
     }
 
     public function vicinity(){
         return $this->belongsTo('App\Vicinity','vicinity_id');
+    }
+
+    public function offdays(){
+        return $this->hasMany('App\OffDays','user_id');
     }
 
     public function getRouteKeyName(){

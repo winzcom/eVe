@@ -1,5 +1,6 @@
+
 <span>{{number_format($reviews->avg('rating'),1)}}/5<span>
-                    @foreach($reviews->orderBy('id','desc')->get() as $review)
+                    @foreach($reviews as $review)
                         <h4>
                             {{$review->reviewers_name}} 
                             

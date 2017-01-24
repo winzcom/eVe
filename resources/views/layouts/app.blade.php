@@ -20,22 +20,27 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
-        <link rel="stylesheet" href="{{asset('/css/app.css')}}">
+        <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <link rel="stylesheet" href="{{asset('/css/w3.css')}}">
-        <link rel="stylesheet" href="{{asset('/css/my_style.css')}}">
+        <link rel="stylesheet" href="{{asset('css/my_style.css')}}">
         <link rel="stylesheet" href="{{asset('/css/chosen.css')}}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
         <!--<link rel="stylesheet" href="{{asset('/css/chosen.min.css')}}">-->
         <link rel="stylesheet" href="{{asset('/slick/slick.css')}}">
          <link rel="stylesheet" href="{{asset('/slick/theme/slick-theme.css')}}">
+         <!--<link rel="stylesheet" href="{{asset('/css/bootstrap2-toggle.css')}}"/>-->
+         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
 
     <!-- Scripts -->
        <!--<scritp src=" https://unpkg.com/vue@2.1.6/dist/vue.js"></script>-->
+
        <script src="{{asset('/js/app.js')}}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-       <script src="{{asset('/js/jquery.steps.js')}}"></script>
+      
         
        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>-->
         
@@ -62,10 +67,12 @@
        width:300px; height:auto;
        transition-timing-function: ease;
    }*/
+   .img{
+    border-right:solid 5px black;
+}
    </style>
-
    @yield('customstyle')
-
+    @yield('headjs')
 </head>
 <body>
 
@@ -145,6 +152,7 @@
 
     @yield('js')
     <script src="{{asset('/js/chosen.jquery.js')}}"></script>
+    
         <script>
             /*if('serviceWorker' in navigator){
                 navigator.serviceWorker.register('sw.js').then(function(){

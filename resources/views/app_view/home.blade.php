@@ -4,7 +4,9 @@
 <style>
     .line{
         border-bottom:dotted 1px black;
+        margin-bottom:10px;
     }
+    .li{border:none;}
 </style>
 
 @endsection
@@ -21,32 +23,40 @@
 @endif
     
    <div class="row">
-    <div class="col-md-4">
-        <div class="w3-card-2 w3-margin-left">
+    <div class="col-md-6">
+        <div class="w3-card-2 w3-margin-left w3-padding">
             <div class="w3-accordion ">
                 <header class="w3-container w3-black" onclick="myFunction('Demo1')">
                         <h4>Details</h4>
                 </header>
-                <!--<div id="Demo1" class="w3-accordion-content w3-animate-zoom w3-show">
-                    <img src="{{asset('images/tl.jpg')}}" width="100%">
-                </div>-->
             </div>
 
-            <div id ="address" style="margin-top:10px; margin-left:10px;">
+            <div id style="margin-top:10px; margin-left:10px;">
                 <p class="line"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                {{Auth::user()->house_no}}, {{Auth::user()->street_name}}, {{Auth::user()->state}}</p>
+                {{$user->house_no}}, {{$user->street_name}}, {{$user->state}}</p>
 
-                <h4>Full Name: </h4>
-                <p class="line">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</p>
+                <div class="line">
+                    <span>Full Name: </span>
+                    {{$user->first_name}} {{$user->last_name}}
+                </div>
 
-                <h4><span class="glyphicon glyphicon-envelope"></span></h4>
-                <p class="line">{{Auth::user()->email}} </p>
+                <div class="line">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                     {{$user->email}} 
+                </div>
 
-                <h4><span class="glyphicon glyphicon-earphone"></span></h4>
-                <p class="line">{{Auth::user()->phone_no}}</p>
+                <div class="line">
+                    <span class="glyphicon glyphicon-earphone "></span>
+                    {{$user->phone_no}}
+                </div>
 
-                <h4>Description</h4>
-                <p>{{Auth::user()->description}}</p>
+                <div class="line">
+                    <span> Categories: </span>
+                    {{ implode(',',$user->categories->pluck('name')->all())}}
+                </div>
+
+                <h5>Description</h5>
+                <p>@include('app_view.shared.show_description',['description'=>$user->description])</p>
             </div>
 
             <!--<div style="margin-left:5px;">
@@ -57,8 +67,16 @@
                 <h4>Description</h4>
                 <p>{{Auth::user()->description}}</p>
             </div>-->
+        </div><!--w3-card-2 w3-margin-left-->
+
+        <div class="w3-card-2 w3-margin-left w3-padding">
+            <header>
+                <!--<h5 data-chart = "">Chart</h5>-->
+            </header>
         </div>
-    </div><!-- col-md-company-logo-->
+
+    </div><!--col-md-4-->
+
     <div class="col-md-6">
         <div class="w3-card-4 w3-margin-left">
             <header class="container-fluid w3-black w3-margin-bottom "><h4>Gallery</h4></header>
@@ -73,23 +91,24 @@
                         
                        <!--@endforeach
                       </div>--><!-- slick-->
-                      @include('app_view.shared.gallery',['galleries'=>$user->galleries()->get()])
+                      @include('app_view.shared.gallery',['galleries'=>$user->galleries,'classname'=>'home'])
         </div>
         <div class="w3-card w3-margin w3-padding">
         
           <header class="w3-margin w3-container">
-            @include('app_view.shared.tabs',['review_count'=>$user->reviews()->count()])
+            @include('app_view.shared.tabs',['review_count'=>count($user->reviews)])
           </header>
 
                
             <div id="reviews" class="tabsContent">
 
-                @if($user->reviews()->count() == 0)
+                @if(count($user->reviews) == 0)
                 <h4>
                     No Reviews
                 </h4>
                 @else
-                    @include('app_view.shared.display_review',['reviews'=>$user->reviews()->take(5)])
+                    <p>Showing Latest Five</p>
+                    @include('app_view.shared.display_review',['reviews'=>$user->reviews->take(5)])
                 @endif
             </div><!--Reviews-->
 
@@ -98,6 +117,26 @@
                     No Quotations
                 </h4>
             </div><!--quotation-->
+
+            <div id="offdays" class="tabsContent">
+                <ul class="list-group" id="offdays_ul">
+                    @if(count($user->offdays) == 0)
+                    <h4>
+                        You are Available all through
+                    </h4>
+                    @else
+                    
+                    @include('app_view.shared.display_offdays',['offdays'=>$user->offdays])
+                    @endif
+                </ul>
+                <form id="offdays" action="{{url('/offdays')}}" method="post">
+                 {{ csrf_field() }}
+                <input type="text" value="" class="w3-input" id="from" name="from_date" placeholder ="from"/>
+                <input type="text" value="" class="w3-input" id="to" name="to_date" placeholder ="to"/>
+
+                 <input type="submit" id="submit_date" value="Add Date" class="w3-input w3-blue"/>
+            </form>
+            </div><!--offdays-->
     
         </div>
     </div><!-- col-md-gallery-address-->
@@ -109,8 +148,10 @@
 @section('js')
     <script src="{{asset('/slick/slick.min.js')}}"></script>
     <script src="{{asset('/js/combox.js')}}"></script>
-    <!--<script src="{{asset('/js/jqueries.js')}}"></script>-->
+    <script src="{{asset('/js/jqueries.js')}}"></script>
     <script type="text/javascript">
+
+       
 
         $(document).ready(function(){
 
@@ -119,8 +160,8 @@
             /*$('#accordion').accordion({
                 collapsible: true
             })*/
-
-            $('.slick-carousel').slick({
+            
+            $('.home').slick({
                 infinite: false,
                 slidesToShow: 3,
                 slidesToScroll: 3,

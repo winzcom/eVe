@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\RegisterFormRequest;
 
 use GuzzleHttp\Client;
-
+use Carbon\Carbon;
 use App\User;
 use App\Service\Service;
 use App\Interfaces\GalleryInterface;
+use App\Gallery;
 use App\Review;
+use App\OffDays;
 
 class UserController extends Controller
 {
@@ -21,17 +24,36 @@ class UserController extends Controller
     
 
     private $gallery_implementation;
+    private $period;
 
     public function __construct(GalleryInterface $gallery_implementation){
 
         $this->gallery_implementation = $gallery_implementation;
          $this->path = asset('storage/images/');
+        // $this->period = $this->computeDays();
+
     }
 
     public function home(){
         
-        $user =  User::find(Auth::user()->id);
+        $user =  User::with([
+                 'galleries',
+                 'reviews'=>function($q){
+                     $q->orderBy('id','desc');
+                 },
+                 'offdays'
+        ]) ->find(Auth::id());
         return view('app_view.home')->with(['user'=>$user,'path'=>$this->path]);
+    }
+
+    private function computeDays(){
+                $begin = new Carbon(); 
+                $begin->addDays(1);
+                $end = $begin->copy()->addMonths(3);
+                $interval = \DateInterval::createFromDateString('1 day');
+                $period = new \DatePeriod($begin, $interval, $end);
+            
+                return $period;
     }
 
     public function updateProfile(RegisterFormRequest $request){
@@ -45,9 +67,9 @@ class UserController extends Controller
 
       try{
 
-          $id = Auth::user()->id;
-          $user = User::where('id',$id)->get()->first();
-          User::where('id',$id)->update($filtered);
+         
+          $user = User::where('id',Auth::id())->first();
+          $user->update($filtered);
           $user->categories()->sync($request->category);
           return redirect('home')->with('message','Profile Updated');
                 
@@ -59,7 +81,18 @@ class UserController extends Controller
     }
 
     public function showProfileForm(Request $request){
-        $user = User::where(['name_slug'=>Auth::user()->name_slug,'id'=>Auth::user()->id])->get()->first();
+        $user = User::with(
+             [
+                    'categories'=>function($query){
+                    $query->where('company_id','=',Auth::id());
+                },
+                'vicinity'=>function($query){
+                    $query->where('id',Auth::user()->vicinity_id);
+                }
+        
+        ])->where(['name_slug'=>Auth::user()->name_slug,'id'=>Auth::id()])
+            ->get()->first();
+
         return view('app_view.edit')
                 ->with(['user'=>$user,'formInputs'=>User::getFormInputs(),
                         'states'=>Service::getStates(),
@@ -67,12 +100,18 @@ class UserController extends Controller
     }
 
     public function showGallery(){
-       $user =  User::find(Auth::user()->id);
+    
+        $galleries = Gallery::where('user_id',Auth::id())->orderBy('id','desc')->get();
+         return view('app_view.user_gallery')->with(['galleries'=>$galleries,'path'=>$this->path]);
+    }
 
-       $user = User::with(['galleries'=>function($q){
-           $q->orderBy('id','desc');
-       }])->find(Auth::user()->id);
-         return view('app_view.user_gallery')->with(['user'=>$user,'path'=>$this->path]);
+    public function publish(Request $request){
+
+        $query = Gallery::where('id',$request->image_id);
+        if($request->published == "true")
+            $query->update(['publish'=>1]);
+        else 
+            $query->update(['publish'=>0]);
     }
 
     public function uploadPhotos(Request $request){
@@ -83,7 +122,7 @@ class UserController extends Controller
 
         
 
-        $names = Service::uploadPhotos($this->gallery_implementation,$request->photo,$request->caption);
+        $names = Service::uploadPhotos($this->gallery_implementation,$request->photo,$request->caption,Auth::user()->name_slug);
         if($request->ajax()){
 
             if(is_array($names))
@@ -104,24 +143,68 @@ class UserController extends Controller
         return back();
     }
 
-    public function getReviews(){
-        $reviews = Review::where('review_for',Auth::id());
-        $avg = $reviews->avg('rating');
-        $total = $reviews->count();
-        $reviews = $reviews->paginate(20);
-        $positives = $reviews->filter(function($review){
-            return $review->rating >=3; 
-        });
+    public function getReviews(Request $request,$filter = null){
 
-        $negatives = $reviews->filter(function($review){
-            return $review->rating<3;
-        });
-        return view('app_view.reviews')->with(['reviews'=>$reviews,
-                        
-                            'positives'=>$positives,
-                            'negatives'=>$negatives,
-                            'average'=>$avg,
-                            'total'=>$total
+        $query = Review::where('review_for',Auth::id());
+        $query1 = Review::where('review_for',Auth::id());
+        $reviews = null;
+        $pagination = 2;
+        $total_avg = $query1->select(DB::raw('count(rating) as total,avg(rating) as av'))->get();
+
+        if($filter){
+            if($filter == 'gt'){
+                $reviews = $query->where([
+                                            ['review_for','=',Auth::id()],
+                                            ['rating','>=',$total_avg[0]->av]
+                ])->paginate(2);
+            }
+            elseif($filter == 'lt'){
+                $reviews = $query->where([
+                                            ['review_for','=',Auth::id()],
+                                            ['rating','<',$total_avg[0]->av]
+                ])->paginate(2);
+            }
+        }
+
+        else{
+            $reviews = $query->paginate(3);
+        }
+
+        return view('app_view.reviews')->with(
+            [
+                'reviews'=>$reviews,
+                'pagination'=>$pagination,
+                'page'=>$request->query('page'),
+                'total'=>$total_avg[0]->total,
+                'avg'=>$total_avg[0]->av
             ]);
+    }
+
+    public function addOffDays(Request $request){
+        $from_date = date("Y-m-d",strtotime($request->from_date));
+
+        $to_date = $request->to_date !== null ?date("Y-m-d",strtotime($request->to_date)): $from_date;
+        
+        if($request->ajax()){
+           $offdays =  OffDays::create(['from_date'=>$from_date,
+                            'to_date'=>$to_date,
+                            'user_id'=>Auth::id()
+                        ]);
+                return json_encode(array('from_date'=>$offdays->from_date->format('l jS \\of F Y'),
+                                         'to_date'=>$offdays->to_date->format('l jS \\of F Y'),
+                                         'date_id'=>$offdays->id
+                ));
+        }
+    }//end of addOffDays
+
+    public function removeOffDays(Request $request){
+
+        if($request->ajax()){
+             OffDays::where(['id'=>$request->date_id,
+                        'user_id'=>Auth::id()
+            ])->delete();
+            return json_encode(array('status'=>'Date Deleted'));
+        }
+       
     }
 }

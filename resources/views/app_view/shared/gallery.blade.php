@@ -5,7 +5,7 @@
 @if(count($galleries) == 0)
 <div class="alert alert-success">No gallery Available</div>
 @else
-    <div class="slick-carousel">
+    <div class="{{$classname or 'slick-carousel'}}">
              @foreach($galleries as $gallery)
                         
 
@@ -16,7 +16,7 @@
                                         <p class="w3-margin">
                                             
                                             @if($gallery->caption !== null)
-                                                {{$gallery->caption}}
+                                               {{$gallery->caption}}
                                             @endif
                                         </p>
                                     </div>

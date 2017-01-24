@@ -11,21 +11,21 @@ use App\Interfaces\GalleryInterface;
 
 class LocalGallery implements GalleryInterface{
 
-    public function uploadPhotos(array $files,array $captions){
+    public function uploadPhotos(array $files,array $captions,string $name_slug){
 
+       
         $names = [];
         $i = 0;
         if(is_array($files)){
             foreach($files as $key=>$file){
-                $names[$key] = array($file->getClientOriginalName(),$captions[$i]);
+                $names[$key] = array($name_slug.$file->getClientOriginalName(),$captions[$i]);
 
                 try{
                     
                     if($file->storeAs('public/images',$names[$key][0])){
-                        Gallery::create(['image_name'=>$names[$key][0],'user_id'=>Auth::user()->id,'caption'=>$captions[$i]]);
+                        Gallery::create(['image_name'=>$names[$key][0],'user_id'=>Auth::id(),'caption'=>htmlentities($captions[$i])]);
 
                     }
-                    else throw new Exception("File ".$names[$key][0]." failed to upload");
                 }   
             
                 catch(Exception $e){
@@ -47,12 +47,16 @@ class LocalGallery implements GalleryInterface{
                 File::delete(public_path().'/storage/images/'.$path);
                
             }  
+           // $prefixed_array = preg_filter('/^/', $name_slug, $paths);
+            //array_walk($paths, function(&$item) use ($name_slug){ $item *= $name_slug; });
              Gallery::whereIn('image_name',$paths)->where('user_id',Auth::user()->id)->delete();
             return ;
         }
-
-        File::delete(public_path().'/storage/images/'.$paths);
-        return;
+        else{
+                File::delete(public_path().'/storage/images/'.$paths);
+                return;
+        }
+        
 
     }
 

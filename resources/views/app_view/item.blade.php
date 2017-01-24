@@ -3,15 +3,6 @@
 @section('customstyle')
 <style>
 
-   /* #img{
-            -webkit-transition: width 1s;
-            transition: width 1s ;
-    }*/
-
-    #img:hover{
-        width:0px; height:auto;
-        transition-timing-function: ease;
-    }
     #Map {
         width: 100%;
         height: 400px;
@@ -30,6 +21,15 @@
     #first_col{
         margin-left:10px;
     }
+    
+    .glyphicon-star{
+       color:#DAA520;
+    }
+
+    .glyphicon-star-empty{
+       color:#333;
+    }
+
 
     .tabs{
         list-style-type: none;
@@ -76,17 +76,27 @@
                     <h3 id="company_name">{{$userd->name}}</h3>
                 </header>
                 <div id="Demo1" class="w3-animate-zoom w3-show">
-                     @include('app_view.shared.gallery',['galleries'=>$userd->galleries()->get()])
+                     @include('app_view.shared.gallery',['galleries'=>$userd->galleries])
                 </div>
                     <div class="w3-padding-left w3-margin-top" id="allWrapper"><!--start-of-allWrapper-->
                         <p id ="address"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                        {{$userd->house_no}} {{$userd->street_name}} {{$userd->vicinity->name}} {{$userd->state}}</p>
+                        {{$userd->house_no}} {{$userd->street_name}} {{$userd->vicinity->name or ""}} {{$userd->state}}</p>
 
                    
 
                 <!--<h2>Contact</h2>-->
                     <p><span class="glyphicon glyphicon-envelope"></span> {{$userd->email}}
-                    <span class="glyphicon glyphicon-earphone"></span> <a href="tel:{{$userd->phone_no}}">{{$userd->phone_no}}</a>
+                    <span class="glyphicon glyphicon-earphone"></span> <a href="tel:{{$userd->phone_no}}">{{$userd->phone_no}}</a></br>
+                    @if(count($userd->offdays) > 0)
+                      Not Available On
+                      <div class="alert alert-success"> 
+                        @foreach($userd->offdays as $offday)
+                            <span class="date ">
+                               || {{$offday->from_date->format('l jS \\of F Y').'--'.$offday->to_date->format('l jS \\of F Y')}}
+                            </span>
+                            @endforeach
+                        </div>
+                    @endif
                     </p>
                     <!--<button class="w3-btn w3-blue w3-margin-bottom" 
                         onclick="document.getElementById('id01').style.display='block'">
@@ -123,14 +133,14 @@
                 </div>
                 <div id = "Description" class="tabsContent">
                     <h4>Description</h4>
-                    <p>{{$userd->description}}</p>
+                    <p>@include('app_view.shared.show_description',['description'=>$userd->description])</p>
                 </div><!-- id = Description-->
 
                 <div id="Review" class="tabsContent">
                     <button class="w3-btn w3-blue w3-margin-top" onclick="document.getElementById('id03').style.display='block'">
                         Write a Review 
                     </button>
-                    @include('app_view.shared.display_review',['reviews'=>$userd->reviews()])
+                    @include('app_view.shared.display_review',['reviews'=>$userd->reviews])
                    
                 </div><!--id=Review-->
 
@@ -167,8 +177,9 @@
 
 @section('js')
     <script src="{{asset('/slick/slick.min.js')}}"></script>
-    <script src="{{asset('/js/combox.js')}}"></script>
     <script src="{{asset('/js/jqueries.js')}}"></script>
+    <script src="{{asset('/js/combox.js')}}"></script>
+    
     <script type="text/javascript">
         function myFunction(id) {
                         var x = document.getElementById(id);

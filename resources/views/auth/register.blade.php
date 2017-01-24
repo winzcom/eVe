@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+
+@section('headjs')
+ <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>
+@endsection
+
 @section('content')
 
 <div class="container">
@@ -32,17 +37,27 @@
                                 </select>
 
                                 @elseif($input == 'state')
-                                <select   class="form-control chzn-select" id="combobox" name="state"  required>
+                                <select   class="form-control chzn-select" id="state" name="state"  
+                                     onchange = "changeVicinitySelect(this)"
+                                    required>
                                     <option></option>
                                     @foreach ($states as $state)
                                     <option value = "{{$state->state}}"
+                                        data-id = "{{$state->id}}"
                                         <?php if(old($input) == $state->state) echo 'selected';?>
                                     >{{$state->state}}</option>
                                     @endforeach
                                 </select>
-                                @elseif($input == 'vicinity')
-                                <input id="name" type="text" class="form-control" name="{{$input}}" 
-                                placeholder = "e.g Ikeja,Akowonjo, Agege" value="{{ old($input) }}" required autofocus>
+                                @elseif($input == 'vicinity_id')
+                                <select   class="form-control" id="vicinity" name="vicinity_id">
+                                                <option></option>
+                                                @foreach ($vicinities as $vicinity)
+                                                <option value = "{{$vicinity->id}}"
+                                                    data-state-id = "{{$vicinity->state_id}}"
+                                                     class="vicinities"
+                                                >{{$vicinity->name}}</option>
+                                                @endforeach
+                                </select>
 
                                 @else
                                 <input id="name" type="text" class="form-control" name="{{$input}}" value="{{ old($input) }}" required autofocus>
@@ -75,18 +90,20 @@
 
 @section('js')
     <script src="{{asset('/js/chosen.jquery.min.js')}}"></script>
+    <script src="{{asset('/js/combox.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
 
             $(".chzn-select").chosen();
-            /*$('#accordion').accordion({
-                collapsible: true
-            })*/
-           // $('#accordion').steps();
 
     });
 
 
-
+    tinymce.init({
+            selector: 'textarea',
+             menubar:false,
+            statusbar: false,
+            width: "100%"
+        });
   </script>
 @endsection
