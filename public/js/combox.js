@@ -59,14 +59,6 @@ function openCity(obj,cityName) {
      form.setAttribute('class','w3-modal')
  }
 
- function myFunction(id) {
-                let x = document.getElementById(id);
-                if (x.className.indexOf("w3-show") == -1) {
-                    x.className += " w3-show";
-                } else { 
-                    x.className = x.className.replace(" w3-show", "");
-                }
-}
 
 function initMap() {
          map = new google.maps.Map(document.getElementById('Map'), {
@@ -106,13 +98,12 @@ function initMap() {
             }
         });
     }
-    var fileArray
+    var fileArray;
 
     function handleFiles(files){
 
          
         if(files !== null && files.length !== 0 ){
-            if(fileArray.length == 0)
                 fileArray = [].slice.call(files);
 
             var gallery_info = document.getElementById("alert");

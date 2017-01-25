@@ -1380,7 +1380,11 @@ body {
   font-family: "Raleway", sans-serif;
   font-size: 14px;
   line-height: 1.6;
+<<<<<<< HEAD
+  color: #636b6f;
+=======
   color: #333;
+>>>>>>> refs/remotes/origin/master
   background-color: #fff;
 }
 
