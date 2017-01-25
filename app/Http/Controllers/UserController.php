@@ -148,7 +148,7 @@ class UserController extends Controller
         $query = Review::where('review_for',Auth::id());
         $query1 = Review::where('review_for',Auth::id());
         $reviews = null;
-        $pagination = 2;
+        $pagination = 3;
         $total_avg = $query1->select(DB::raw('count(rating) as total,avg(rating) as av'))->get();
 
         if($filter){
@@ -156,18 +156,18 @@ class UserController extends Controller
                 $reviews = $query->where([
                                             ['review_for','=',Auth::id()],
                                             ['rating','>=',$total_avg[0]->av]
-                ])->paginate(2);
+                ])->paginate($pagination);
             }
             elseif($filter == 'lt'){
                 $reviews = $query->where([
                                             ['review_for','=',Auth::id()],
                                             ['rating','<',$total_avg[0]->av]
-                ])->paginate(2);
+                ])->paginate($pagination);
             }
         }
 
         else{
-            $reviews = $query->paginate(3);
+            $reviews = $query->paginate($pagination);
         }
 
         return view('app_view.reviews')->with(

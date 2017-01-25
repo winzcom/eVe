@@ -1,5 +1,5 @@
-<div id="id02" class="email_forms" style="display:block;">
-    <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
+<div id="id02" class="email_forms" style="display:block; ">
+    <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:400px">
 
       <div class="w3-center"><br>
         <span onclick="document.getElementById('id02').style.display='none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">&times;</span>
@@ -41,6 +41,9 @@
          
           <label class="w3-label">Event Date:</label>
           <input type="text" id="event_date" name="event_date" class="form-control" value = ""></br>
+
+          <label class="w3-label">Duration in Hours</label>
+          <input type="number" id="event_date" name="duration" class="form-control" value = ""></br>
           
           <label class="w3-label" id="amount">Budget:</label>
           <input type="hidden" id="budget" name="budget" value = "" readonly>

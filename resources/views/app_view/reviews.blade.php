@@ -24,7 +24,7 @@
 @section('content')
 
 <?php $i = 0;?>
-<?php $j = 0;?>
+<?php $j = 1;?>
     <div class="container-fluid">
         <div class="w3-cards-3">
             @if($reviews->count() > 0)
@@ -46,12 +46,15 @@
                                 <?php 
                                
                                     if($page !== null && $page !== '1'){
+                                       
+                                       
+                                        $num = ((int)($page*$pagination)-$pagination+$j);
+                                        
                                         ++$j;
-                                        $num = (int)($page*$pagination)-$pagination+$j;
                                         echo $num;
                                         
                                     }
-                                    else echo ++$j;
+                                    else echo $j++;
                                 ?>
                             </td>
                             <td>{{$review->reviewers_name}}</td>
