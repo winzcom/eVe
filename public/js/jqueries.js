@@ -63,6 +63,7 @@ $(document).ready(function(){
       var submit_date = document.getElementById('submit_date');
       submit_date.value = "Adding..."
       submit_date.disabled = true;
+      var from_date = $('input[name=from_date]'), to_date = $('input[name=to_date]');
 
       var uri = "/eWeb/public/add/offdays";
       $.ajax({
@@ -72,11 +73,11 @@ $(document).ready(function(){
             },
             type:"POST",
             dataType:'json',
-            data:{'from_date':$('input[name=from_date]').val(),'to_date':$('input[name=to_date]').val()},
+            data:{'from_date':from_date.val(),'to_date':to_date.val()},
             success:function(data){
                 submit_date.value = 'Add Date'
                 submit_date.disabled = false;
-                $('input[name=from_date]').val('') ;$('input[name=to_date]').val('');
+                from_date.val('') ;to_date.val('');
                 addDate(data);
             },
             error:function(err){
@@ -102,14 +103,14 @@ $(document).ready(function(){
         button.appendChild(span);
 
         let li = document.createElement('li');
-        li.setAttribute('class','list-group-item w3-card-3 li');
+        li.setAttribute('class','list-group-item li line');
         li.setAttribute('data-date',data.date_id);
         li.appendChild(spandate);
         li.appendChild(text);
         li.appendChild(button);
 
         let div = document.createElement('div');
-        div.setAttribute('class','w3-card-3');
+        div.setAttribute('class','');
         div.appendChild(li);
 
         
@@ -145,7 +146,9 @@ $(document).ready(function(){
             dataType:'json',
             data:{'date_id':id},
             success:function(data){
-              parent.remove();
+              parent.fadeOut("slow",function(){
+                $(this).remove();
+              })
               $('input[name=from_date]').val('') ;$('input[name=to_date]').val('')
               alert(data.status);
             },
