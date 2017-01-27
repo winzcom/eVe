@@ -26,11 +26,11 @@
 <?php $i = 0;?>
 <?php $j = 1;?>
     <div class="container-fluid">
-        <div class="w3-cards-3">
+        <div class="table-responsive">
             @if($reviews->count() > 0)
                 @include('app_view.shared.review_filter_tab',['total'=>$total,'avg'=>$avg])
 
-               <table  class="table table-striped table-bordered table-hover">
+               <table  class="table table-striped  table-bordered table-hover">
                         <tr>
                             <th>#</th>
                             <th>Reviewer's Name</th>
@@ -57,7 +57,15 @@
                                     else echo $j++;
                                 ?>
                             </td>
-                            <td>{{$review->reviewers_name}}</td>
+                            <td>{{$review->reviewers_name}} 
+                               <!-- <small>
+                                    <i>
+                                        <a href="#" class="review_reply" data-name = "{{$review->reviewers_name}}" data-id="{{$review->id}}">
+                                            reply
+                                        </a>
+                                    </i>
+                                </small>-->
+                            </td>
                             <td>{{$review->reviewers_email}}</td>
                             <td  width="8%">
                                 <?php 
@@ -91,6 +99,6 @@
 @endsection
 
 @section('js')
-    
-    <script src="{{asset('/js/combox.js')}}"></script>
+
+    <script src="{{asset('/js/jqueries.js')}}"></script>
 @endsection

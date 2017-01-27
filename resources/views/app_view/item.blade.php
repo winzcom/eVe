@@ -166,7 +166,7 @@
         </div>
 
         <div class="col-md-6">
-            @include('app_view.email_view_folders.quotation_form')
+            @include('app_view.email_view_folders.quotation_form',['states'=>$states])
         </div>
 
         <div class="col-md-4">

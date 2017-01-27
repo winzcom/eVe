@@ -2,10 +2,10 @@ $(document).ready(function(){
 
     $('.slick-carousel').slick({
         //infinite: false,
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        //slidesToShow: 3,
+        //slidesToScroll: 3,
         //adaptiveHeight:true,
-        mobileFirst:true,
+        //mobileFirst:true,
         arrows:true
     });
 
@@ -31,7 +31,7 @@ $(document).ready(function(){
           defaultDate: "+1w",
           changeMonth: true,
           dateFormat:dateFormat,
-          numberOfMonths: 3
+          numberOfMonths: 1
         })
         .on( "change", function() {
           to.datepicker( "option", "minDate", getDate( this ) );
@@ -39,7 +39,7 @@ $(document).ready(function(){
       to = $( "#to" ).datepicker({
         defaultDate: "+1w",
         changeMonth: true,
-        numberOfMonths: 3,
+        numberOfMonths: 1,
         dateFormat:dateFormat
       })
       //.on( "change", function() {
@@ -158,4 +158,10 @@ $(document).ready(function(){
         })//end of ajax call
     }
 
-});
+    $('.review_reply').click(function(){
+      //e.preventDefault();
+      alert('clicked')
+      return false;
+    })
+
+});// document ready

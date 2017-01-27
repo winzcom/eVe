@@ -11,10 +11,10 @@
             <input type="hidden" name="company_email" value="{{$userd->email}}">
             <input type="hidden" name="mail_type" value="quotation_request">
           
-          <label class="w3-label w3-validate"><b>Email</b></label>
+          <label class="w3-label w3-validate"><b>*Email</b></label>
           <input class="form-control" type="email" placeholder="Enter Email" name="email" required>
           
-          <label class="w3-label w3-validate"><b>Name</b></label>
+          <label class="w3-label w3-validate"><b>*Name</b></label>
           <input class="form-control" type="text" placeholder="Enter Name" name="name" required>
           
           <label class="w3-label">Type Event</label>
@@ -24,23 +24,20 @@
             @endforeach
           </select>
          
-          <label class="w3-label">Location of the Event</label>
-          <select name="estimated_attendees" class="form-control">
-            <option>Lagos</option>
-            <option>Abuja</option>
-            <option>Kano</option>
+          <label class="w3-label">*Location of the Event</label>
+          <select placeholder = "Select State" class="form-control cc " onchange = "changeVicinitySelect(this)"
+                                    id="state" name="event_location"  required>
+                                    @foreach($states as $state)
+                                        <option value= "{{$state->state}}">{{$state->state}}</option>
+                                    @endforeach
           </select>
           
           <label class="w3-label">Estimated Attendees</label>
-          <select name="estimated_attendees" class="form-control">
-            <option>1-10</option>
-            <option>11-50</option>
-            <option>50-200</option>
-            <option>250+</option>
-          </select></br>
+            <input type="number" id="estimated_attendees" name="estimated_attendees" class="form-control" value = "">
+          </br>
          
           <label class="w3-label">Event Date:</label>
-          <input type="text" id="event_date" name="event_date" class="form-control" value = ""></br>
+          <input type="text" id="event_date" name="event_date" required class="form-control" value = ""></br>
 
           <label class="w3-label">Duration in Hours</label>
           <input type="number" id="event_date" name="duration" class="form-control" value = ""></br>

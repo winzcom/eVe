@@ -10,7 +10,7 @@
                             {{ csrf_field() }}
                             <div class="input-group">
                                 <!--<label for="Category" class="cat">Categories</label>-->
-                                <span class="input-group-addon">Categories</span>
+                                <span class="input-group-addon">What do you need?</span>
                                 <select  multiple="true" placeholder = "Select Categories"
                                 class="form-control  cc chzn-select" id="combobox" name="category[]" selected ="{{old('category')}}"  required>
                                     <option></option>
