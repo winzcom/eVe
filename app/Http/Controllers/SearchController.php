@@ -16,7 +16,7 @@ class SearchController extends Controller
         //dd($request->query->all());
         $companies = User::with('reviews')->whereHas('categories',function($q) use ($request){
             $q->whereIn('categories.id',$request->input('category'));
-        })->StateVicinity($request->state,$request->vicinity)->paginate(15);
+        })->StateVicinity($request->state,$request->vicinity)->where('name','!=','null')->paginate(15);
        return view('app_view.display_list')->with(['companies'=>$companies,'request'=>$request]);
     }
 

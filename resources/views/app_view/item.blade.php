@@ -3,10 +3,19 @@
 @section('customstyle')
 <style>
 
+
+    
     #Map {
         width: 100%;
         height: 400px;
     }
+
+    fieldset { border:none; width:320px;}
+    legend { font-size:18px; margin:0px; padding:10px 0px; color:#b0232a; font-weight:bold;}
+    .prev, .next { background-color:#b0232a; padding:5px 10px; color:#fff; text-decoration:none;}
+        .prev:hover, .next:hover { background-color:#000; text-decoration:none;}
+        .prev { float:left;}
+        .next { float:right;}
 
     .tabsContent{
         overflow-y:scroll;
@@ -50,11 +59,13 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaLwKhrrU0XnVwajC_lh_1nKX5hFBJ514">
     </script>
 
+
+
 @endsection
 
 
 @section('content')
-<div class="container ">
+<div class="container">
  <a href = "{{URL::previous()}}">
     <span class="glyphicon glyphicon-chevron-left">Back</span>
     <!--<button class="w3-btn w3-blue">Back</button>-->
@@ -179,17 +190,6 @@
 @section('js')
     <script src="{{asset('/slick/slick.min.js')}}"></script>
     <script src="{{asset('/js/jqueries.js')}}"></script>
+    <script src="{{asset('/js/formstep.js')}}"></script>
     <script src="{{asset('/js/combox.js')}}"></script>
-    
-    <script type="text/javascript">
-        function myFunction(id) {
-                        var x = document.getElementById(id);
-                        if (x.className.indexOf("w3-show") == -1) {
-                            x.className += " w3-show";
-                        } else { 
-                            x.className = x.className.replace(" w3-show", "");
-                        }
-        }
-
-  </script>
 @endsection

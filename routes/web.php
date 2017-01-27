@@ -22,7 +22,7 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::get('/home','UserController@home');
 
-    Route::get('/profile/edit/{user}','UserController@showProfileForm');
+    Route::get('/profile/edit/','UserController@showProfileForm');
 
     Route::post('/profile/edit','UserController@updateProfile');
 
@@ -48,6 +48,10 @@ Route::get('/detail/{company}','DetailsController@details');
 Route::post('/client_mail','MailController@sendMail');
 
 Route::post('/write_review','GuestController@writeReview');
+
+Route::get('/wel',function(){
+    return view('layouts.home');
+});
 
 Auth::routes();
 

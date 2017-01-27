@@ -6,7 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Http\Requests\RegisterFormRequest;
+use App\Http\Requests\FormRegistration;
 use App\Company;
 use App\Service\Service;
 
@@ -46,11 +46,12 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         return view('auth.register')
-        ->with(['formInputs'=>User::getFormInputs(),
+        ->with(['formInputs'=>User::getRegisterInputs(),
         'categories'=>Service::getCategories(),
         'states'=>Service::getStates()
         ]);
     }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -60,7 +61,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, Service::formRules(new RegisterFormRequest));
+        return Validator::make($data, Service::formRules(new FormRegistration));
     }
 
     /**

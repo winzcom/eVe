@@ -90,7 +90,7 @@ class UserController extends Controller
                     $query->where('id',Auth::user()->vicinity_id);
                 }
         
-        ])->where(['name_slug'=>Auth::user()->name_slug,'id'=>Auth::id()])
+        ])->where(['id'=>Auth::id()])
             ->get()->first();
 
         return view('app_view.edit')

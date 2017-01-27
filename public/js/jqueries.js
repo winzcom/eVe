@@ -1,10 +1,12 @@
 $(document).ready(function(){
 
+  
+
     $('.slick-carousel').slick({
         //infinite: false,
         //slidesToShow: 3,
         //slidesToScroll: 3,
-        //adaptiveHeight:true,
+        adaptiveHeight:true,
         //mobileFirst:true,
         arrows:true
     });
@@ -16,7 +18,7 @@ $(document).ready(function(){
       min: 500,
       max: 200000,
       step:100,
-      values: [ 500,2000000 ],
+      values: [ 500,20,000000 ],
       slide: function( event, ui ) {
         $("#amount").text( "Budget : N" + ui.values[ 0 ] + " - N" + ui.values[ 1 ]);
         $( "#budget" ).val(ui.values[ 0 ] + "-" +ui.values[ 1 ] );
@@ -158,10 +160,6 @@ $(document).ready(function(){
         })//end of ajax call
     }
 
-    $('.review_reply').click(function(){
-      //e.preventDefault();
-      alert('clicked')
-      return false;
-    })
+    
 
 });// document ready
