@@ -24,6 +24,7 @@ class User extends Authenticatable
         'category','state',
         'vicinity_id',
         'description',
+        'summary',
         'phone_no','house_no','street_name','name_slug'
     ];
 
@@ -47,7 +48,10 @@ class User extends Authenticatable
             'street_name',
             'state',
             'vicinity_id',
-            'category','description','phone_no'
+            'category',
+            'summary',
+            'description',
+            'phone_no'
         ]
     ];
 
@@ -77,6 +81,7 @@ class User extends Authenticatable
             'category'=>'required',
             'vicinity_id'=>'required',
             'description'=>'required',
+            'summary'=>'required',
             'first_name'=>'required',
             'last_name'=>'required'
         ];

@@ -92,7 +92,8 @@
                       <div class="alert alert-success"> 
                         @foreach($userd->offdays as $offday)
                             <span class="date ">
-                               || {{$offday->from_date->format('l jS \\of F Y').'--'.$offday->to_date->format('l jS \\of F Y')}}
+                                <span class=" glyphicon glyphicon-chevron-right" aria-hidden="true"></span>  
+                                {{$offday->from_date->format('l jS \\of F Y').'--'.$offday->to_date->format('l jS \\of F Y')}}
                             </span>
                             @endforeach
                         </div>
@@ -165,7 +166,7 @@
         </div>
 
         <div class="col-md-6">
-            @include('app_view.email_view_folders.quotation_form')
+            @include('app_view.email_view_folders.quotation_form',['states'=>$states])
         </div>
 
         <div class="col-md-4">

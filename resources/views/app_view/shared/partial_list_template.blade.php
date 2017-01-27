@@ -18,7 +18,7 @@
                                         from {{$company->reviews->count()}} reviews
                                     </small>
                                 </h3>
-                                <p><?php echo str_limit($company->description,100);?></p>
+                                <p>{{$company->summary}}</p>
                                 <div id ="address">
                                     <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                                         {{$company->house_no}} {{$company->street_name}} 

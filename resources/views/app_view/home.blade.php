@@ -55,6 +55,11 @@
                     {{ implode(',',$user->categories->pluck('name')->all())}}
                 </div>
 
+                <div class="line">
+                    <span> Summary: </span>
+                    {{ $user->summary}}
+                </div>
+
                 <h5>Description</h5>
                 <p>@include('app_view.shared.show_description',['description'=>$user->description])</p>
             </div>

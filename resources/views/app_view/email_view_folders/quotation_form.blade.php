@@ -1,5 +1,5 @@
-<div id="id02" class="email_forms" style="display:block;">
-    <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
+<div id="id02" class="email_forms" style="display:block; ">
+    <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:400px">
 
       <div class="w3-center"><br>
         <span onclick="document.getElementById('id02').style.display='none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">&times;</span>
@@ -11,10 +11,10 @@
             <input type="hidden" name="company_email" value="{{$userd->email}}">
             <input type="hidden" name="mail_type" value="quotation_request">
           
-          <label class="w3-label w3-validate"><b>Email</b></label>
+          <label class="w3-label w3-validate"><b>*Email</b></label>
           <input class="form-control" type="email" placeholder="Enter Email" name="email" required>
           
-          <label class="w3-label w3-validate"><b>Name</b></label>
+          <label class="w3-label w3-validate"><b>*Name</b></label>
           <input class="form-control" type="text" placeholder="Enter Name" name="name" required>
           
           <label class="w3-label">Type Event</label>
@@ -24,23 +24,23 @@
             @endforeach
           </select>
          
-          <label class="w3-label">Location of the Event</label>
-          <select name="estimated_attendees" class="form-control">
-            <option>Lagos</option>
-            <option>Abuja</option>
-            <option>Kano</option>
+          <label class="w3-label">*Location of the Event</label>
+          <select placeholder = "Select State" class="form-control cc " onchange = "changeVicinitySelect(this)"
+                                    id="state" name="event_location"  required>
+                                    @foreach($states as $state)
+                                        <option value= "{{$state->state}}">{{$state->state}}</option>
+                                    @endforeach
           </select>
           
           <label class="w3-label">Estimated Attendees</label>
-          <select name="estimated_attendees" class="form-control">
-            <option>1-10</option>
-            <option>11-50</option>
-            <option>50-200</option>
-            <option>250+</option>
-          </select></br>
+            <input type="number" id="estimated_attendees" name="estimated_attendees" class="form-control" value = "">
+          </br>
          
           <label class="w3-label">Event Date:</label>
-          <input type="text" id="event_date" name="event_date" class="form-control" value = ""></br>
+          <input type="text" id="event_date" name="event_date" required class="form-control" value = ""></br>
+
+          <label class="w3-label">Duration in Hours</label>
+          <input type="number" id="event_date" name="duration" class="form-control" value = ""></br>
           
           <label class="w3-label" id="amount">Budget:</label>
           <input type="hidden" id="budget" name="budget" value = "" readonly>
