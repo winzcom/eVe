@@ -112,8 +112,5 @@ class Service{
         return Vicinity::OrderBy('name')->get();
     }
 
-    public static function getCategoriesStatesVicinities(){
-
-    }
    
 }

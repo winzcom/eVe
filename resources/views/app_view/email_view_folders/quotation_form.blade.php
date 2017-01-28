@@ -5,13 +5,13 @@
         <span onclick="document.getElementById('id02').style.display='none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">&times;</span>
       </div>
 
-      <form class="w3-container" id = "form_step"  method="post" action="{{url('/client_mail')}}">
+      <form class="w3-container" id = "form_step"  method="post" action="{{url('/quotes_request')}}">
          {{ csrf_field() }}
           <fieldset>
            <legend>First Step</legend>
               <div>
-                  <input type="hidden" name="company_email" value="{{$userd->email}}">
-                  <input type="hidden" name="mail_type" value="quotation_request">
+                  <input type="hidden" name="company_category[]" value="{{$categories or ''}}">
+                  <input type="hidden" name="company_name" value="{{$user->name_slug or ''}}">
                 
                 <label class="w3-label w3-validate"><b>*Email</b></label>
                 <input class="form-control" type="email" placeholder="Enter Email" name="email" required>

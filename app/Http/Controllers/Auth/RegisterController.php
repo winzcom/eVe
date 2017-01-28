@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendVerificationMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Http\Requests\FormRegistration;
-use App\Company;
+use App\Http\Requests\FormRegistration;;
 use App\Service\Service;
 
 class RegisterController extends Controller
@@ -64,6 +66,29 @@ class RegisterController extends Controller
         return Validator::make($data, Service::formRules(new FormRegistration));
     }
 
+    protected function registerUser(){
+
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->sendVerificationMail($user);
+    }
+
+    /*protected function redirectTo(){
+        return redirect('/login')->with('status','An Email has been sent to You');
+    }*/
+
+    private function sendVerificationMail($user){
+
+        Mail::to($user->email)
+            ->send(new SendVerificationMail($user));
+    }
+
+    private function generateToken(){
+        return str_random(40);
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -72,6 +97,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-       return $user = Service::createNewUser($data);
+        $user = Service::createNewUser($data);
+        $user->confirm_token = $this->generateToken();
+        $user->save();
+        $this->sendVerificationMail($user);
+        return $user;
+    }
+
+    public function verifyToken($confirm_token){
+
+        $user = User::where('confirm_token','=',$confirm_token)->first();
+
+        if(!$user) throw new \Exception;
+
+        $user->confirm_token = null;
+        $user->confirmed = 1;
+        $user->save();
+        $this->guard()->login($user);
     }
 }

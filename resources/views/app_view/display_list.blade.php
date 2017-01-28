@@ -4,6 +4,9 @@
 <div class="container-fluid">
  @include('app_view.shared.search_cat_form')
     @include('app_view.shared.search')
+    <button class="w3-btn w3-blue w3-margin-bottom" onclick="openMail('id02')">
+                        Request Quotation
+    </button>
     @if(count($companies) > 0)
         @foreach($companies->chunk(4) as $chunk )
         <div class="row w3-padding-left">
@@ -47,4 +50,10 @@
     </div>
 </div>
 @endif
+ @include('app_view.email_view_folders.quotation_form',['states'=>$states])
+@endsection
+
+@section('js')
+    <script src="{{asset('/js/combox.js')}}"></script>
+    <script src="{{asset('/js/formstep.js')}}"></script>
 @endsection

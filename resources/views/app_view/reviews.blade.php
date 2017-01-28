@@ -58,13 +58,13 @@
                                 ?>
                             </td>
                             <td>{{$review->reviewers_name}} 
-                               <!-- <small>
+                                <small>
                                     <i>
                                         <a href="#" class="review_reply" data-name = "{{$review->reviewers_name}}" data-id="{{$review->id}}">
                                             reply
                                         </a>
                                     </i>
-                                </small>-->
+                                </small>
                             </td>
                             <td>{{$review->reviewers_email}}</td>
                             <td  width="8%">
@@ -101,4 +101,8 @@
 @section('js')
 
     <script src="{{asset('/js/jqueries.js')}}"></script>
+
+    <script>
+        
+    </script>
 @endsection

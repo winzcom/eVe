@@ -45,13 +45,11 @@ Route::group(['middleware'=>'auth'],function(){
 
 Route::get('/detail/{company}','DetailsController@details');
 
-Route::post('/client_mail','MailController@sendMail');
+Route::post('/quotes_request','GuestController@quotesRequest');
 
 Route::post('/write_review','GuestController@writeReview');
 
-Route::get('/wel',function(){
-    return view('layouts.home');
-});
+Route::get('/register/verify/{confirm_token}','Auth\RegisterController@verifyToken');
 
 Auth::routes();
 

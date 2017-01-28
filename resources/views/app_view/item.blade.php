@@ -5,48 +5,7 @@
 
 
     
-    #Map {
-        width: 100%;
-        height: 400px;
-    }
-
-    fieldset { border:none; width:320px;}
-    legend { font-size:18px; margin:0px; padding:10px 0px; color:#b0232a; font-weight:bold;}
-    .prev, .next { background-color:#b0232a; padding:5px 10px; color:#fff; text-decoration:none;}
-        .prev:hover, .next:hover { background-color:#000; text-decoration:none;}
-        .prev { float:left;}
-        .next { float:right;}
-
-    .tabsContent{
-        overflow-y:scroll;
-        max-height:300px;
-    }
-
-    .well{
-        overflow-y:scroll;
-        max-height:500px;
-    }
-
-    #first_col{
-        margin-left:10px;
-    }
-    
-    .glyphicon-star{
-       color:#DAA520;
-    }
-
-    .glyphicon-star-empty{
-       color:#333;
-    }
-
-
-    .tabs{
-        list-style-type: none;
-    }
-
-    .tabs >li{
-        display: inline-block;
-    }
+   
     
 </style>
 @endsection
@@ -177,7 +136,7 @@
         </div>
 
         <div class="col-md-6">
-            @include('app_view.email_view_folders.quotation_form',['states'=>$states])
+            @include('app_view.email_view_folders.quotation_form',['states'=>$states,'user'=>$userd])
         </div>
 
         <div class="col-md-4">
