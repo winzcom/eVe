@@ -27,7 +27,7 @@ class SearchController extends Controller
 
     public function search_by_typing(Request $request){
         $name = $request->name;
-        $companies = User::with('categories','reviews')->where('name','like',"%".$name."%")->paginate(10);
+        $companies = User::with('categories','reviews')->where('name','like',$name."%")->paginate(10);
         return view('app_view.display_list')->with(['companies'=>$companies,'request'=>$request,
             'events'=>Service::getEvents()
         ]);

@@ -41,13 +41,17 @@ class GuestController extends Controller
 
     public function quotesRequest(Request $request){
 
+
         if($request->company_category[0] !== ""){
              $categories = explode(',',$request->company_category[0]);
+        }
+
+        elseif($request->name_search !== ''){
+            $name_search = $request->name_search;
         }
            
         else{
             $name_slug = $request->company_name;
-            
         }
 
         $quote = QuotationRequest::create($request->all());
