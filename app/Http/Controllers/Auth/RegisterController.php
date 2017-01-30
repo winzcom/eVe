@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendVerificationMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Http\Requests\FormRegistration;;
 use App\Service\Service;
@@ -66,13 +70,17 @@ class RegisterController extends Controller
         return Validator::make($data, Service::formRules(new FormRegistration));
     }
 
-    protected function registerUser(){
+    protected function register(Request $request){
 
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        DB::Transaction(function() use ($request){
+                event(new Registered($user = $this->create($request->all())));
+                $this->sendVerificationMail($user);
+        },5);
 
-        $this->sendVerificationMail($user);
+        return redirect('login')->with('message','A verification email has been sent');
+        
     }
 
     /*protected function redirectTo(){
@@ -113,6 +121,7 @@ class RegisterController extends Controller
         $user->confirm_token = null;
         $user->confirmed = 1;
         $user->save();
-        $this->guard()->login($user);
+        return redirect('login')->with('message','Please Login');
+        //$this->guard()->login($user);
     }
 }

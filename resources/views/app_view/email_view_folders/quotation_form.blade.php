@@ -13,6 +13,8 @@
                   <input type="hidden" name="company_category[]" value="{{$categories or ''}}">
                   <input type="hidden" name="company_name" value="{{$user->name_slug or $request->name}}">
                    <input type="hidden" name="name_search" value="{{$request->name or ''}}">
+                   <input type="hidden" name="state" value="{{$request->state or ''}}"> 
+                   <input type="hidden" name="vicinity" value="{{$request->vicinity or ''}}">
                 
                 <label class="w3-label w3-validate"><b>*Email</b></label>
                 <input class="form-control" type="email" placeholder="Enter Email" name="email" required>
