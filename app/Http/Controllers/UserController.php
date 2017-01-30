@@ -212,6 +212,18 @@ class UserController extends Controller
        
     }
 
+    public function reply(Request $request){
+
+        $id = $request->review_id;
+        $reply = $request->reply_content;
+        if($request->ajax()){
+            if($id !== '' && $reply !== ''){
+                 Review::where('id','=',$id)->update(['reply'=>$reply]);
+                return json_encode(array('status'=>'Reply Posted'));
+            }
+        }
+    }
+
     public function retrieveQuotes(){
         
     }

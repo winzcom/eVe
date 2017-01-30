@@ -38,7 +38,9 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::post('/add/offdays','UserController@addOffDays');
 
-    Route::get('remove/offdays','UserController@removeOffDays');
+    Route::get('/remove/offdays','UserController@removeOffDays');
+
+    Route::post('/reply_review','UserController@reply');
 });// end of middleware=>auth grouping
 
 

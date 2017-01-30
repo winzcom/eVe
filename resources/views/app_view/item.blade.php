@@ -108,9 +108,13 @@
                 </div><!-- id = Description-->
 
                 <div id="Review" class="tabsContent">
+                    @if(Auth::check())
+                        @if(Auth::id() !== $userd->id)
                     <button class="w3-btn w3-blue w3-margin-top" onclick="document.getElementById('id03').style.display='block'">
                         Write a Review 
                     </button>
+                        @endif
+                    @endif
                     @include('app_view.shared.display_review',['reviews'=>$userd->reviews])
                    
                 </div><!--id=Review-->

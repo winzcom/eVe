@@ -12,7 +12,7 @@
                             <!--<div class="col-md-3">
                                 <div class="w3-card-2 w3-hover-shadow" style="padding-left:0px;">-->
                                     <div>
-                                        <img src="{{$path}}/{{$gallery->image_name}}" width="100%"/>
+                                        <img src="{{$path}}/{{$gallery->image_name}}" width="100%" height="300"/>
                                         <p class="w3-margin">
                                             
                                             @if($gallery->caption !== null)
