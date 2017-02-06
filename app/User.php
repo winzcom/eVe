@@ -28,16 +28,6 @@ class User extends Authenticatable
         'phone_no','house_no','street_name','name_slug'
     ];
 
-    /*protected static  $formInputs = [
-        'name','email','password','password_confirm','first_name','last_name',
-        'phone_no',
-        'house_no',
-        'street_name',
-        'state',
-        'category',
-        'description'
-    ];*/
-
     protected static $formInputs = [
         'Personal Details'=>[
             'first_name','last_name','email','password','password_confirm'
@@ -55,7 +45,11 @@ class User extends Authenticatable
         ]
     ];
 
-    
+    public static $registerInputs = [
+        'Personal Details'=>[
+            'first_name','last_name','email','password','password_confirm','phone_no'
+        ]
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -67,7 +61,7 @@ class User extends Authenticatable
     ];
 
 
-    public static function rules()
+    /*public static function rules()
     {
         $user = Auth::user();
         return [
@@ -85,10 +79,14 @@ class User extends Authenticatable
             'first_name'=>'required',
             'last_name'=>'required'
         ];
-    }
+    }*/
 
     public static function getFormInputs(){
         return self::$formInputs;
+    }
+
+    public static function getRegisterInputs(){
+        return self::$registerInputs;
     }
 
     public function categories(){

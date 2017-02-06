@@ -90,7 +90,7 @@ class UserController extends Controller
                     $query->where('id',Auth::user()->vicinity_id);
                 }
         
-        ])->where(['name_slug'=>Auth::user()->name_slug,'id'=>Auth::id()])
+        ])->where(['id'=>Auth::id()])
             ->get()->first();
 
         return view('app_view.edit')
@@ -210,6 +210,18 @@ class UserController extends Controller
             return json_encode(array('status'=>'Date Deleted'));
         }
        
+    }
+
+    public function reply(Request $request){
+
+        $id = $request->review_id;
+        $reply = $request->reply_content;
+        if($request->ajax()){
+            if($id !== '' && $reply !== ''){
+                 Review::where('id','=',$id)->update(['reply'=>$reply]);
+                return json_encode(array('status'=>'Reply Posted'));
+            }
+        }
     }
 
     public function retrieveQuotes(){

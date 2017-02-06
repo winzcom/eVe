@@ -3,41 +3,9 @@
 @section('customstyle')
 <style>
 
-    #Map {
-        width: 100%;
-        height: 400px;
-    }
 
-    .tabsContent{
-        overflow-y:scroll;
-        max-height:300px;
-    }
-
-    .well{
-        overflow-y:scroll;
-        max-height:500px;
-    }
-
-    #first_col{
-        margin-left:10px;
-    }
     
-    .glyphicon-star{
-       color:#DAA520;
-    }
-
-    .glyphicon-star-empty{
-       color:#333;
-    }
-
-
-    .tabs{
-        list-style-type: none;
-    }
-
-    .tabs >li{
-        display: inline-block;
-    }
+   
     
 </style>
 @endsection
@@ -50,11 +18,13 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaLwKhrrU0XnVwajC_lh_1nKX5hFBJ514">
     </script>
 
+
+
 @endsection
 
 
 @section('content')
-<div class="container ">
+<div class="container">
  <a href = "{{URL::previous()}}">
     <span class="glyphicon glyphicon-chevron-left">Back</span>
     <!--<button class="w3-btn w3-blue">Back</button>-->
@@ -138,9 +108,13 @@
                 </div><!-- id = Description-->
 
                 <div id="Review" class="tabsContent">
+                    @if(Auth::check())
+                        @if(Auth::id() !== $userd->id)
                     <button class="w3-btn w3-blue w3-margin-top" onclick="document.getElementById('id03').style.display='block'">
                         Write a Review 
                     </button>
+                        @endif
+                    @endif
                     @include('app_view.shared.display_review',['reviews'=>$userd->reviews])
                    
                 </div><!--id=Review-->
@@ -166,7 +140,7 @@
         </div>
 
         <div class="col-md-6">
-            @include('app_view.email_view_folders.quotation_form',['states'=>$states])
+            @include('app_view.email_view_folders.quotation_form',['states'=>$states,'user'=>$userd])
         </div>
 
         <div class="col-md-4">
@@ -179,17 +153,6 @@
 @section('js')
     <script src="{{asset('/slick/slick.min.js')}}"></script>
     <script src="{{asset('/js/jqueries.js')}}"></script>
+    <script src="{{asset('/js/formstep.js')}}"></script>
     <script src="{{asset('/js/combox.js')}}"></script>
-    
-    <script type="text/javascript">
-        function myFunction(id) {
-                        var x = document.getElementById(id);
-                        if (x.className.indexOf("w3-show") == -1) {
-                            x.className += " w3-show";
-                        } else { 
-                            x.className = x.className.replace(" w3-show", "");
-                        }
-        }
-
-  </script>
 @endsection

@@ -22,7 +22,7 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::get('/home','UserController@home');
 
-    Route::get('/profile/edit/{user}','UserController@showProfileForm');
+    Route::get('/profile/edit/','UserController@showProfileForm');
 
     Route::post('/profile/edit','UserController@updateProfile');
 
@@ -38,16 +38,20 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::post('/add/offdays','UserController@addOffDays');
 
-    Route::get('remove/offdays','UserController@removeOffDays');
+    Route::get('/remove/offdays','UserController@removeOffDays');
+
+    Route::post('/reply_review','UserController@reply');
 });// end of middleware=>auth grouping
 
 
 
 Route::get('/detail/{company}','DetailsController@details');
 
-Route::post('/client_mail','MailController@sendMail');
+Route::post('/quotes_request','GuestController@quotesRequest');
 
 Route::post('/write_review','GuestController@writeReview');
+
+Route::get('/register/verify/{confirm_token}','Auth\RegisterController@verifyToken');
 
 Auth::routes();
 

@@ -1,10 +1,12 @@
 $(document).ready(function(){
 
+  
+
     $('.slick-carousel').slick({
         //infinite: false,
         //slidesToShow: 3,
         //slidesToScroll: 3,
-        //adaptiveHeight:true,
+        adaptiveHeight:true,
         //mobileFirst:true,
         arrows:true
     });
@@ -16,7 +18,7 @@ $(document).ready(function(){
       min: 500,
       max: 200000,
       step:100,
-      values: [ 500,2000000 ],
+      values: [ 500,20,000000 ],
       slide: function( event, ui ) {
         $("#amount").text( "Budget : N" + ui.values[ 0 ] + " - N" + ui.values[ 1 ]);
         $( "#budget" ).val(ui.values[ 0 ] + "-" +ui.values[ 1 ] );
@@ -63,7 +65,7 @@ $(document).ready(function(){
       var submit_date = document.getElementById('submit_date');
       submit_date.value = "Adding..."
       submit_date.disabled = true;
-      var from_date = $('input[name=from_date]'), to_date = $('input[name=to_date]');
+      var from_date = $('input[name=from_date]').val(), to_date = $('input[name=to_date]').val();
 
       var uri = "/eWeb/public/add/offdays";
       $.ajax({
@@ -73,7 +75,7 @@ $(document).ready(function(){
             },
             type:"POST",
             dataType:'json',
-            data:{'from_date':from_date.val(),'to_date':to_date.val()},
+            data:{'from_date':from_date,'to_date':to_date},
             success:function(data){
                 submit_date.value = 'Add Date'
                 submit_date.disabled = false;
@@ -158,10 +160,6 @@ $(document).ready(function(){
         })//end of ajax call
     }
 
-    $('.review_reply').click(function(){
-      //e.preventDefault();
-      alert('clicked')
-      return false;
-    })
+    
 
 });// document ready

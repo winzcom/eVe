@@ -6,6 +6,7 @@ use App\Category;
 use App\User;
 use App\Vicinity;
 use App\Gallery;
+ use App\Interfaces\RequestInterface;
 use App\Interfaces\GalleryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -70,7 +71,7 @@ class Service{
         return DB::table('events')->select('name')->OrderBy('name')->get();
     }
 
-    public static function createNewUser($data){
+    /*public static function createNewUser($data){
 
         $filtered =  array_except($data,['password_confirm','category','_token']);
         $filtered['password'] = bcrypt($filtered['password']);
@@ -80,6 +81,14 @@ class Service{
         $user =  User::create($filtered);
 
         $user->categories()->attach($data['category']);
+        return $user;
+    }*/
+
+    public static function createNewUser($data){
+         $filtered =  array_except($data,['password_confirm','_token']);
+        $filtered['password'] = bcrypt($filtered['password']);
+        $user =  User::create($filtered);
+
         return $user;
     }
 
@@ -94,7 +103,7 @@ class Service{
         return $gallery->uploadPhotos($files,$captions,$name_slug);
     }
 
-    public static function formRules(RegisterFormRequest $request){
+    public static function formRules(RequestInterface $request){
 
         return $request->rules(); 
     }
@@ -103,8 +112,5 @@ class Service{
         return Vicinity::OrderBy('name')->get();
     }
 
-    public static function getCategoriesStatesVicinities(){
-
-    }
    
 }

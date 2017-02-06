@@ -11,11 +11,11 @@ use App\Interfaces\GalleryInterface;
 
 class LocalGallery implements GalleryInterface{
 
-    public function uploadPhotos(array $files,array $captions,string $name_slug){
+    public function uploadPhotos(array $files,array $captions,$name_slug=''){
 
        
         $names = [];
-        $i = 0;
+        $i = 0; 
         if(is_array($files)){
             foreach($files as $key=>$file){
                 $names[$key] = array($name_slug.$file->getClientOriginalName(),$captions[$i]);

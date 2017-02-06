@@ -66,7 +66,7 @@
                                             </select>
 
                                     @elseif ($input == 'description')
-                                        {{Form::textarea($input,$user->$input,['class'=>'form-control','required'])}}
+                                        {{Form::textarea($input,$user->$input,['class'=>'form-control'])}}
 
                                     @elseif($input == 'email')
                                         <div class="form-group form-group-md">

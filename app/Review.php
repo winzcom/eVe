@@ -14,7 +14,8 @@ class Review extends Model
         'reviewers_email',
         'rating',
         'review',
-        'review_for'
+        'review_for',
+        'reply'
     ];
 
     public function user(){

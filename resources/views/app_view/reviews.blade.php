@@ -38,6 +38,7 @@
                             <th>Rating</th>
                             <th>Review Date</th> 
                             <th>Review</th>
+                            <th>Reply</th>
                         </tr>
                     
                     @foreach($reviews as $key=>$review)
@@ -57,14 +58,16 @@
                                     else echo $j++;
                                 ?>
                             </td>
-                            <td>{{$review->reviewers_name}} 
-                               <!-- <small>
-                                    <i>
+                            <td>{{$review->reviewers_name}}
+                             @if($review->reply == null) 
+                                <small>
+                                   <i>
                                         <a href="#" class="review_reply" data-name = "{{$review->reviewers_name}}" data-id="{{$review->id}}">
                                             reply
                                         </a>
                                     </i>
-                                </small>-->
+                                </small>
+                            @endif
                             </td>
                             <td>{{$review->reviewers_email}}</td>
                             <td  width="8%">
@@ -80,11 +83,12 @@
                             </td>
                             <td>{{$review->created_at->toFormattedDateString()}}</td> 
                             <td>{{$review->review}}</td>
+                            <td class="reply">{{$review->reply or ''}}</td>
                         </tr>
                     @endforeach
                     </table>
                 
-                
+ @include('app_view.shared.reply_from')
                 
                 {{$reviews->links()}}
 
@@ -93,12 +97,16 @@
                 <div class="alert alert-success">No Reviews</div>
             @endif
         </div>
-        
+       
     </div>
 
 @endsection
 
 @section('js')
 
-    <script src="{{asset('/js/jqueries.js')}}"></script>
+    <script src="{{asset('/js/review.js')}}"></script>
+
+    <script>
+        
+    </script>
 @endsection

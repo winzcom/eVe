@@ -5,16 +5,17 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
  use Illuminate\Support\Facades\Auth;
  use Illuminate\Validation\Rule;
+ use App\Interfaces\RequestInterface;
 
 
-class RegisterFormRequest extends FormRequest
+class RegisterFormRequest extends FormRequest implements RequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize() 
     {
         return true;
     }
@@ -42,11 +43,13 @@ class RegisterFormRequest extends FormRequest
             'last_name'=>'required'
         ];
 
+        
 
-        if($user === null) $rules  = array_merge($rules,array('email'=>'required|email|unique:companies,email'));
-        else $rules  = array_merge($rules,array('email' => array('required','email','max:255',Rule::unique('companies')->ignore($user->id))));
 
+        if($user !== null) {
+            $rules  = array_merge($rules,array('email' => array('required','email','max:255',Rule::unique('companies')->ignore($user->id))));
+        
+        }
         return $rules;
-
     }
 }

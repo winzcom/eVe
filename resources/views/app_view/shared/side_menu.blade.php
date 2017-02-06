@@ -30,7 +30,7 @@
 </li>-->
 <?php $url = Request::url();?>
 
-<li><a href="{{ url('/profile/edit',Auth::user()->name_slug) }}" <?php 
+<li><a href="{{ url('/profile/edit') }}" <?php 
     if($url == url('/profile/edit',Auth::user()->name_slug)) echo "style = 'border-bottom:solid 3px #333333; color:#fff;'"
 ?> class="cat" style="color:#fff;">Profile</a>
 </li>
